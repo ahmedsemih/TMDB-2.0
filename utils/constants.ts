@@ -23,3 +23,5 @@ export const navItems:NavItem[]=[
         Icon:MdBolt
     }
 ];
+
+export const tmdbImageUrl:string = "https://image.tmdb.org/t/p/original/";

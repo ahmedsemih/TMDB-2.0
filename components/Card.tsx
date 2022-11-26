@@ -14,15 +14,18 @@ type Props = {
 
 const Card: FC<Props> = ({ movie, setSelected }) => {
   const router = useRouter();
+  const [type, setType] = useState("movie");
 
   const handleHover = async (movie: any) => {
     setSelected(null);
 
     const details = await getMovieDetails(movie.id);
     if (movie.name === details.name) {
+      setType("movie");
       if (details.backdrop_path) return setSelected(details);
       setSelected(null);
     } else {
+      setType("series")
       const newDetails = await getTvShowDetails(movie.id);
       if (newDetails.backdrop_path) return setSelected(newDetails);
       setSelected(null)
@@ -38,7 +41,7 @@ const Card: FC<Props> = ({ movie, setSelected }) => {
             width={250}
             height={500}
             onMouseEnter={() => handleHover(movie)}
-            onClick={() => router.push(`/movie?id=${movie?.id}`)}
+            onClick={() => router.push(`/${type}?id=${movie?.id}`)}
             className='mr-5 hover:scale-125 hover:shadow-xl cursor-pointer w-full sm:w-96'
             src={tmdbImageUrl + movie?.poster_path} alt="TMDB" />
           :

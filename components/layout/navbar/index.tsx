@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { MdOutlineMenu, MdLogin } from 'react-icons/md';
@@ -11,9 +11,50 @@ import NavItem from "./NavItem";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [show, setShow] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+
+  const controlNavbar = () => {
+    if (typeof window !== 'undefined') {
+      if (window.scrollY > lastScrollY) {
+        setShow(false);
+      } else {
+        setShow(true);
+      }
+      setLastScrollY(window.scrollY);
+    }
+  };
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', controlNavbar);
+
+      return () => {
+        window.removeEventListener('scroll', controlNavbar);
+      };
+    }
+  }, [lastScrollY]);
 
   return (
-    <div className='flex md:flex-row flex-col md:items-center justify-between md:px-3 bg-neutral-900 md:bg-none'>
+    <nav
+      className={`
+      align-middle
+      flex 
+      md:flex-row 
+      flex-col
+      md:items-center
+      justify-between
+      md:px-3
+      bg-neutral-900
+      sm:bg-transparent
+      hover:bg-[rgba(17,17,17,.8)]
+      fixed
+      top-0
+      w-full
+      duration-300
+      ${!show && 'opacity-0'}
+      `}
+    >
       <div className="flex justify-between items-center py-5 px-3">
         <Link href="/" className="mr-5">
           <Image src={Logo} alt="TMDB" width={200} height={100} priority />
@@ -37,7 +78,7 @@ const Navbar = () => {
         </div>
         <NavItem item={{ name: "Login", path: "/login", Icon: MdLogin }} />
       </div>
-    </div>
+    </nav>
   )
 }
 

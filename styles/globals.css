@@ -6,5 +6,13 @@
 @layer base{
     body {
         @apply bg-neutral-900 text-gray-200;
+        overflow-x: hidden;
+    }
+    ::-webkit-scrollbar {
+        width: 5px;
+    }
+    ::-webkit-scrollbar-thumb{
+        @apply bg-neutral-600;
+        scroll-behavior: smooth;
     }
 }

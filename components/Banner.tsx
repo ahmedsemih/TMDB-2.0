@@ -5,13 +5,21 @@ import { tmdbImageUrl } from '../utils/constants';
 import Link from 'next/link';
 import { useBaseContext } from '../contexts/baseContext';
 
-
-
-const Banner = ({  }) => {
+const Banner = () => {
   const { selected, activeType } = useBaseContext();
 
   return (
-    <div className={`flex flex-col space-y-2 py-16 md:space-y-4 lg:h-[65vh] ${selected ? "lg:justify-end" : "lg:justify-center"} lg:pb-12 mt-10`}>
+    <div
+      className={`
+      flex
+      flex-col
+      space-y-2
+      py-16
+      md:space-y-4
+      lg:h-[65vh]
+      ${selected ? "lg:justify-end" : "lg:justify-center"}
+      lg:pb-12 mt-10`
+      }>
       {
         selected !== null
           ?
@@ -36,32 +44,56 @@ const Banner = ({  }) => {
                   group-hover:bg-[rgba(16,16,16,.6)] 
                   w-fit 
                   px-2 
-                  py-1"
+                  py-1
+                  transition-all duration-200"
               >
                 {selected?.title || selected?.name || selected?.original_name}
               </h1>
-              <p
+              {
+                selected?.overview
+                &&
+                <p
+                  className="
+                    max-w-xs 
+                    text-sm 
+                    text-shadow-md 
+                    md:max-w-lg 
+                    py-1 
+                    md:text-lg 
+                    lg:max-w-xl 
+                    lg:text-xl
+                    xl:text-2xl
+                    xl:max-w-2xl
+                    mb-5
+                    px-2
+                    group-hover:bg-[rgba(16,16,16,.6)]
+                    transition-all
+                    duration-200"
+                >
+                  {selected?.overview}
+                </p>
+              }
+              <div
                 className="
-                  max-w-xs 
-                  text-sm 
-                  text-shadow-md 
-                  md:max-w-lg 
-                  py-1 
-                  md:text-lg 
-                  lg:max-w-xl 
-                  lg:text-xl
-                  xl:text-2xl
-                  xl:max-w-2xl
-                  mb-5
+                  flex
+                  space-x-3
+                  group-hover:bg-[rgba(16,16,16,.6)]
+                  w-fit
                   px-2
-                  group-hover:bg-[rgba(16,16,16,.6)]"
+                  py-1
+                  transition-all
+                  duration-200"
               >
-                {selected?.overview}
-              </p>
-              <div className="flex space-x-3 group-hover:bg-[rgba(16,16,16,.6)] w-fit px-2 py-1">
                 <Link
                   href={`${activeType}/${selected?.id}`}
-                  className="bannerButton bg-[gray]/70 px-8 py-3 rounded-md hover:bg-gray-500 transition duration-200"
+                  className="
+                  bg-[gray]/70
+                  px-8
+                  py-3
+                  rounded-md
+                  hover:bg-gray-500
+                  transition
+                  duration-200"
                 >
                   More Info
                 </Link>

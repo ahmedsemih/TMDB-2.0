@@ -32,12 +32,6 @@ export const getTopRated = async (page:number = 1) => {
   return tv;
 };
 
-export const getLatest = async () => {
-  const result = await fetch(`${API_BASE_URL}/tv/latest?api_key=${API_KEY}`);
-  const tv = await result.json();
-  return tv;
-};
-
 export const getAiringToday = async (page:number = 1) => {
   const result = await fetch(`${API_BASE_URL}/tv/airing_today?api_key=${API_KEY}&page=${page}`);
   const tv = await result.json();

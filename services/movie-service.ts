@@ -33,13 +33,7 @@ export const getTopRated = async (page:number = 1) => {
 };
 
 export const getUpcoming = async (page:number = 1) => {
-  const result = await fetch(`${API_BASE_URL}/movie/top_rated?api_key=${API_KEY}&page=${page}`);
-  const movies = await result.json();
-  return movies;
-};
-
-export const getLatestMovies = async () => {
-  const result = await fetch(`${API_BASE_URL}/movie/latest?api_key=${API_KEY}`);
+  const result = await fetch(`${API_BASE_URL}/movie/upcoming?api_key=${API_KEY}&page=${page}`);
   const movies = await result.json();
   return movies;
 };
@@ -69,7 +63,7 @@ export const getMovieCredits = async (id:number) => {
   return credits;
 };
 
-// MOVIE RATING
+// RATING
 export const rateMovie = async (id:number, userId:string, rating:number) => {
   const result = await fetch(`${API_BASE_URL}/movie/${id}/rating?api_key=${API_KEY}&session_id=${userId}`,{
     method: "POST",

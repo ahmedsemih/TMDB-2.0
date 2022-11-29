@@ -1,19 +1,30 @@
-import { Dispatch, SetStateAction, useState } from 'react';
-
+import { FC, useEffect } from 'react';
 import Banner from '../components/Banner';
 import Carousel from '../components/Carousel';
+import { useBaseContext } from '../contexts/baseContext';
 import { discoverMovies, getTrending } from '../services/movie-service';
 import { discoverTv } from '../services/tv-service';
+import { Movie } from '../types';
 
-const Home = ({ trending, movieDiscover, tvDiscover }: any) => {
-  const [selected, setSelected]: [any, Dispatch<SetStateAction<any>>] = useState(0);
+type Props = {
+  trending: Movie[];
+  movieDiscover: Movie[];
+  tvDiscover: Movie[];
+}
+
+const Home: FC<Props> = ({ trending, movieDiscover, tvDiscover }) => {
+  const { setSelected } = useBaseContext();
+
+  useEffect(() => {
+    setSelected(trending[0]?.backdrop_path ? trending[0] : trending[1])
+  }, []);
 
   return (
     <div>
-      <Banner selected={selected} movie={trending.results[0].backdrop_path ? trending.results[0] : trending.results[1]} />
-      <Carousel setSelected={setSelected} title='Trending' description='Trending Movies & Tv Series' movies={trending.results} />
-      <Carousel setSelected={setSelected} title='Movie Discover' description='Discover New Movies' movies={movieDiscover.results} />
-      <Carousel setSelected={setSelected} title='Tv Discover' description='Discover New Tv Series' movies={tvDiscover.results} />
+      <Banner />
+      <Carousel title='Trending' description='Trending Movies & Tv Series' movies={trending} />
+      <Carousel title='Movie Discover' description='Discover New Movies' movies={movieDiscover} />
+      <Carousel title='Tv Discover' description='Discover New Tv Series' movies={tvDiscover} />
     </div>
   )
 }
@@ -25,9 +36,9 @@ export const getServerSideProps = async () => {
 
   return {
     props: {
-      trending,
-      movieDiscover,
-      tvDiscover
+      trending: trending.results,
+      movieDiscover: movieDiscover.results,
+      tvDiscover: tvDiscover.results
     }
   }
 };

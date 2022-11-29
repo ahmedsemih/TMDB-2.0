@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction, useState } from 'react';
+import { FC } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
@@ -6,42 +6,43 @@ import { tmdbImageUrl } from '../utils/constants';
 import { Movie } from '../types';
 import { getMovieDetails } from '../services/movie-service';
 import { getTvShowDetails } from '../services/tv-service';
+import { useBaseContext } from '../contexts/baseContext';
+import delay from '../utils/delay';
 
 type Props = {
   movie: Movie;
-  setSelected: Dispatch<SetStateAction<any>>;
 }
 
-const Card: FC<Props> = ({ movie, setSelected }) => {
+const Card: FC<Props> = ({ movie }) => {
   const router = useRouter();
-  const [type, setType] = useState("movie");
+  const { activeType, setSelected, setActiveType } = useBaseContext();
 
   const handleHover = async (movie: any) => {
     setSelected(null);
 
     const details = await getMovieDetails(movie.id);
     if (movie.name === details.name) {
-      setType("movie");
-      if (details.backdrop_path) return setSelected(details);
+      setActiveType("movies");
+      if (details.backdrop_path) return delay(500, setSelected(details));
       setSelected(null);
     } else {
-      setType("series")
+      setActiveType("series");
       const newDetails = await getTvShowDetails(movie.id);
-      if (newDetails.backdrop_path) return setSelected(newDetails);
-      setSelected(null)
+      if (newDetails.backdrop_path) return delay(500, setSelected(newDetails));
+      setSelected(null);
     }
   };
 
   return (
     <>
       {
-          movie?.poster_path
+        movie?.poster_path
           ?
           <Image
             width={250}
             height={500}
             onMouseEnter={() => handleHover(movie)}
-            onClick={() => router.push(`/${type}?id=${movie?.id}`)}
+            onClick={() => router.push(`/${activeType}/${movie?.id}`)}
             className='mr-5 hover:scale-125 hover:shadow-xl cursor-pointer w-full sm:w-96'
             src={tmdbImageUrl + movie?.poster_path} alt="TMDB" />
           :

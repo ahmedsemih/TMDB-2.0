@@ -1,25 +1,17 @@
 import Image from 'next/image';
-import { FaStar } from 'react-icons/fa'
+import { FaStar, FaClock } from 'react-icons/fa'
 
 import { tmdbImageUrl } from '../utils/constants';
-import { Movie } from '../types';
-import { FC, useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useBaseContext } from '../contexts/baseContext';
 
-type Props = {
-  movie: Movie;
-  selected: any;
-}
 
-const Banner: FC<Props> = ({ movie, selected }) => {
-  const [selectedMovie, setSelectedMovie] = useState(movie);
 
-  useEffect(() => {
-    if (selected !== null && selected !== 0) setSelectedMovie(selected);
-  }, [selected]);
+const Banner = ({  }) => {
+  const { selected, activeType } = useBaseContext();
 
   return (
-    <div className={`flex flex-col space-y-2 py-16 md:space-y-4 lg:h-[65vh] ${selected ? "lg:justify-end" : "lg:justify-center"} lg:pb-12 mt-10 pl-6`}>
+    <div className={`flex flex-col space-y-2 py-16 md:space-y-4 lg:h-[65vh] ${selected ? "lg:justify-end" : "lg:justify-center"} lg:pb-12 mt-10`}>
       {
         selected !== null
           ?
@@ -28,28 +20,64 @@ const Banner: FC<Props> = ({ movie, selected }) => {
               <Image
                 className='object-cover mt-15 sm:pt-0 overflow-x-hidden'
                 fill
-                src={tmdbImageUrl + selectedMovie?.backdrop_path || tmdbImageUrl + selectedMovie?.poster_path}
+                src={tmdbImageUrl + selected?.backdrop_path || tmdbImageUrl + selected?.poster_path}
                 alt="TMDB"
               />
             </div>
-            <div className='py-10'>
-              <h1 className="text-2xl font-bold md:text-4xl lg:text-7xl mb-3">
-                {selectedMovie?.title || selectedMovie?.name || selectedMovie?.original_name}
+            <div className='py-10 group xl:w-1/2 md:w-2/3 px-1 md:pl-4'>
+              <h1
+                className="
+                  text-2xl 
+                  font-bold 
+                  md:text-4xl 
+                  lg:text-6xl 
+                  xl:text-7xl 
+                  mb-3 
+                  group-hover:bg-[rgba(16,16,16,.6)] 
+                  w-fit 
+                  px-2 
+                  py-1"
+              >
+                {selected?.title || selected?.name || selected?.original_name}
               </h1>
-              <p className="max-w-xs text-sm text-shadow-md md:max-w-lg md:text-lg lg:max-w-2xl lg:text-2xl mb-5 hover:bg-[rgba(0,0,0,.3)]">
-                {selectedMovie?.overview}
+              <p
+                className="
+                  max-w-xs 
+                  text-sm 
+                  text-shadow-md 
+                  md:max-w-lg 
+                  py-1 
+                  md:text-lg 
+                  lg:max-w-xl 
+                  lg:text-xl
+                  xl:text-2xl
+                  xl:max-w-2xl
+                  mb-5
+                  px-2
+                  group-hover:bg-[rgba(16,16,16,.6)]"
+              >
+                {selected?.overview}
               </p>
-              <div className="flex space-x-3">
+              <div className="flex space-x-3 group-hover:bg-[rgba(16,16,16,.6)] w-fit px-2 py-1">
                 <Link
-                  href={`movie?id=${selectedMovie?.id}`}
+                  href={`${activeType}/${selected?.id}`}
                   className="bannerButton bg-[gray]/70 px-8 py-3 rounded-md hover:bg-gray-500 transition duration-200"
                 >
                   More Info
                 </Link>
-                <div className='flex items-center text-2xl md:text-3xl'>
-                  <FaStar className='ml-3 mr-2 text-yellow-400' />
-                  <p>{selectedMovie?.vote_average?.toFixed(1)}</p>
-                </div>
+                {
+                  selected?.vote_average === 0
+                    ?
+                    <div className='flex sm:flex-row flex-col items-center justify-center sm:justify-start'>
+                      <FaClock className='text-2xl mr-2' />
+                      <p className='text-lg sm:text-2xl'> {selected?.release_date}</p>
+                    </div>
+                    :
+                    <div className='flex items-center text-2xl md:text-3xl'>
+                      <FaStar className='ml-3 mr-2 text-yellow-400' />
+                      <p>{selected?.vote_average?.toFixed(1)}</p>
+                    </div>
+                }
               </div>
             </div>
           </>

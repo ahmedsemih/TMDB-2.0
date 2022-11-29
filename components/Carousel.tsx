@@ -1,4 +1,4 @@
-import { Dispatch, FC, SetStateAction } from 'react';
+import { FC } from 'react';
 
 import { Movie } from '../types';
 import Card from './Card';
@@ -7,10 +7,9 @@ type Props = {
   title: string;
   description: string;
   movies: Movie[];
-  setSelected: Dispatch<SetStateAction<Movie>>;
 }
 
-const Carousel: FC<Props> = ({ title, description, movies, setSelected }) => {
+const Carousel: FC<Props> = ({ title, description, movies }) => {
 
   // ACTIVATING BODY SCROLL AFTER LEAVING CAROUSEL
   const handleLeave = () => {
@@ -23,14 +22,14 @@ const Carousel: FC<Props> = ({ title, description, movies, setSelected }) => {
 
   // HORIZONTAL SCROLL ON MOVIE CAROUSEL
   const horizontalScroll = (e: any) => {
-        const html = document.querySelector('html');
-        if (html) html.style.overflowY = 'hidden';
-        const delta = Math.max(-1, Math.min(1, (e.nativeEvent.wheelDelta || -e.nativeEvent.detail)));
-        e.currentTarget.scrollLeft -= (delta * -100);
+    const html = document.querySelector('html');
+    if (html) html.style.overflowY = 'hidden';
+    const delta = Math.max(-1, Math.min(1, (e.nativeEvent.wheelDelta || -e.nativeEvent.detail)));
+    e.currentTarget.scrollLeft -= (delta * -100);
   };
 
   return (
-    <div className='bg-neutral-900 font-bold' >
+    <div className='bg-neutral-900 font-bold relative' >
       <div className='pt-8 pl-6 pb-1'>
         <h2 className='text-3xl mr-3 inline'>{title}</h2>
         <span className='text-neutral-500 text-xl hidden md:inline'>{description}</span>
@@ -42,10 +41,11 @@ const Carousel: FC<Props> = ({ title, description, movies, setSelected }) => {
       >
         {
           movies.map((movie, index) => {
-            return <Card setSelected={setSelected} movie={movie} key={index} />
+            return <Card movie={movie} key={index} />
           })
         }
       </div>
+      <div className="absolute right-0 top-0 bg-gradient-to-l from-neutral-900 h-full w-16" />
     </div>
   )
 }

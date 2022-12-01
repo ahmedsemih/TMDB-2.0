@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+
 import { useBaseContext } from '../contexts/baseContext';
 import { getMovieGenres } from '../services/movie-service';
 import { getTvGenres } from '../services/tv-service';
@@ -50,7 +51,7 @@ const Nav = () => {
             >
                 {
                     data && data?.map((genre: Genre) => {
-                        return <Link href={`/search?type=movie&genre=${genre.id}`} key={genre.id} className='text-2xl hover:text-sky-200 mx-6'>{genre.name}</Link>
+                        return <Link href={`/search?type=${activeType}&genre=${genre.id}`} key={genre.id} className='text-2xl hover:text-sky-200 mx-6'>{genre.name}</Link>
                     })
                 }
             </div>

@@ -1,36 +1,64 @@
 import Link from 'next/link';
-import { FC } from 'react';
-import { NavItem } from '../../../types';
-import Searchbar from './Searchbar';
+import { useState } from 'react';
+import { ImUser } from 'react-icons/im';
+import { MdBookmark, MdFavorite, MdLogout } from 'react-icons/md';
+import secureLocalStorage from 'react-secure-storage';
 
-type Props = {
-    isOpen: boolean;
-    elements: NavItem[];
-}
+import { useAuthContext } from '../../../contexts/authContext';
+import { logout } from '../../../services/auth-service';
 
-const Dropdown: FC<Props> = ({ isOpen, elements }) => {
+const Dropdown = () => {
+    const { setUser, setPass } = useAuthContext();
+    const [isOpen, setIsOpen] = useState(false);
+
+    const handleLogout = async () => {
+        const sessionId = secureLocalStorage.getItem("session_id")!.toString();
+        logout(sessionId)
+            .then(() => {
+                setUser(null);
+                setPass(null);
+                secureLocalStorage.clear();
+            });
+    };
+
     return (
-        <>
+        <div className='py-5 hidden md:block'>
+            <div
+                className='flex items-center text-xl md:mx-4 hover:text-sky-200 cursor-pointer'
+                onClick={() => setIsOpen(true)}
+                onMouseEnter={() => setIsOpen(true)}
+            >
+                <ImUser className='text-3xl xl:mr-3 mr-2' />
+                <p className='hidden lg:block'>Account</p>
+            </div>
             {
-                isOpen && <div
-                    className="md:hidden flex-col mt-1 bg-neutral-900 w-full sm:w-64 h-auto top-20 absolute transition-all sm:right-4 rounded-md pt-2 pb-5 pl-10 shadow-md pr-6"
+                isOpen
+                &&
+                <div
+                    className='absolute bg-[rgba(17,17,17,.8)] shadow-lg mt-5 p-3 rounded-sm right-2'
+                    onMouseLeave={() => setIsOpen(false)}
                 >
-                    <div className='mb-3 sm:hidden pr-5'>
-                        <Searchbar />
-                    </div>
-                    {
-                        elements.map((element, index) => {
-                            return (
-                                <Link href={element.path} key={index} className='flex items-center text-2xl py-2'>
-                                    <element.Icon className='mr-3' />
-                                    <p className='text-center'>{element.name}</p>
-                                </Link>
-                            )
-                        })
-                    }
+                    <Link
+                        href="/watchlist"
+                        className='flex items-center text-2xl py-2 hover:text-sky-200'>
+                        <MdBookmark className='mr-3' />
+                        <p className='text-center'>Watchlist</p>
+                    </Link>
+                    <Link
+                        href="/favorites"
+                        className='flex items-center text-2xl py-2 hover:text-sky-200'>
+                        <MdFavorite className='mr-3' />
+                        <p className='text-center'>Favorites</p>
+                    </Link>
+                    <button
+                        className='flex items-center text-2xl py-2 hover:text-sky-200'
+                        onClick={handleLogout} >
+                        <MdLogout className='mr-3' />
+                        <p className='text-center'>Logout</p>
+                    </button>
                 </div>
             }
-        </>
+        </div>
     )
 }
 

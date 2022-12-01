@@ -4,6 +4,7 @@ import Head from 'next/head';
 
 import Layout from '../components/layout';
 import { BaseProvider } from '../contexts/baseContext';
+import { AuthProvider } from '../contexts/authContext';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
@@ -13,11 +14,13 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
         <meta name="description" content="A Movie App. This built with Nextjs, Tailwindcss and TMDB API." />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </Head>
-      <BaseProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </BaseProvider>
+      <AuthProvider>
+        <BaseProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </BaseProvider>
+      </AuthProvider>
     </main>
   )
 }

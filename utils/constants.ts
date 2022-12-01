@@ -25,3 +25,9 @@ export const navItems:NavItem[]=[
 ];
 
 export const tmdbImageUrl:string = "https://image.tmdb.org/t/p/original/";
+
+export const loginAdventages = [
+    "Rate movies and series.",
+    "Mark as favorite.",
+    "Create a watchlist."
+];

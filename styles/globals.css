@@ -15,4 +15,8 @@
         @apply bg-neutral-600;
         scroll-behavior: smooth;
     }
+    input::-ms-reveal,
+    input::-ms-clear {
+      display: none;
+    }
 }

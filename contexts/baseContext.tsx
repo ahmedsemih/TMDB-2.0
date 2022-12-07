@@ -4,7 +4,7 @@ const baseContext = createContext<any>(null);
 
 export const BaseProvider = ({ children }: any) => {
     const [selected, setSelected]:[any,Dispatch<SetStateAction<any>>] = useState(null);
-    const [activeType, setActiveType]:[string,Dispatch<SetStateAction<string>>] = useState("movie");
+    const [activeType, setActiveType]:[string,Dispatch<SetStateAction<string>>] = useState("movies");
 
     const values = {
         selected,

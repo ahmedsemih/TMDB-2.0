@@ -1,15 +1,23 @@
-import { FC } from 'react';
+import { useRouter } from 'next/router';
+import { FC, useEffect } from 'react';
 
-import { Movie } from '../types';
+import { Credit, Movie } from '../types';
 import Card from './Card';
+import CastCard from './CastCard';
 
 type Props = {
   title: string;
   description: string;
-  movies: Movie[];
+  movies?: Movie[];
+  cast?: Credit["cast"][];
 }
 
-const Carousel: FC<Props> = ({ title, description, movies }) => {
+const Carousel: FC<Props> = ({ title, description, movies, cast }) => {
+  const router = useRouter();
+    
+  useEffect(()=>{
+    handleLeave();
+  },[router.pathname])
 
   // ACTIVATING BODY SCROLL AFTER LEAVING CAROUSEL
   const handleLeave = () => {
@@ -40,9 +48,15 @@ const Carousel: FC<Props> = ({ title, description, movies }) => {
         onMouseLeave={handleLeave}
       >
         {
-          movies.map((movie, index) => {
-            return <Card movie={movie} key={index} />
-          })
+          movies
+            ?
+            movies?.map((movie, index) => {
+              return <Card movie={movie} key={index} />
+            })
+            :
+            cast?.map((actor, index) => {
+              return <CastCard actor={actor} key={index} />
+            })
         }
       </div>
       <div className="absolute right-0 top-0 bg-gradient-to-l from-neutral-900 h-full w-16" />

@@ -69,6 +69,32 @@ export const getTvShowCredits = async (id:number) => {
   return credits;
 };
 
+// SEASONS
+export const getSeasonDetails = async (id:number, seasonNumber:number) => {
+  const result = await fetch(`${API_BASE_URL}/tv/${id}/season/${seasonNumber}?api_key=${API_KEY}`);
+  const season = await result.json();
+  return season;
+};
+
+export const getSeasonImages = async (id:number, seasonNumber:number) => {
+  const result = await fetch(`${API_BASE_URL}/tv/${id}/season/${seasonNumber}/images?api_key=${API_KEY}`);
+  const images = await result.json();
+  return images;
+};
+
+export const getSeasonVideos = async (id:number, seasonNumber:number) => {
+  const result = await fetch(`${API_BASE_URL}/tv/${id}/season/${seasonNumber}/videos?api_key=${API_KEY}`);
+  const videos = await result.json();
+  return videos;
+}
+
+// EPISODES
+export const getEpisodeDetails = async (id:number, seasonNumber:number, episodeNumber:number) => {
+  const result = await fetch(`${API_BASE_URL}/tv/${id}/season/${seasonNumber}/episode/${episodeNumber}?api_key=${API_KEY}`);
+  const episode = await result.json();
+  return episode;
+}
+
 // RATING
 export const rateTvShow = async (id:number, userId:string, rating:number) => {
   const result = await fetch(`${API_BASE_URL}/tv/${id}/rating?api_key=${API_KEY}&session_id=${userId}`,{

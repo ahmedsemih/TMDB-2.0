@@ -59,18 +59,6 @@ const TvDetails: FC<Props> = ({ tv }) => {
                             }
                         </div>
                     </div>
-                    {/* <div className='mt-3'>
-                        Season
-                        {
-                            Array.from(Array(tv?.number_of_seasons),(e,i:number)=>{
-                                return (
-                                    <Link className='bg-neutral-200 text-black p-2 hover:bg-sky-700' href={`/series/${tv?.id}/season/${i+1}`} key={i}>
-                                        {i+1}
-                                    </Link>
-                                )
-                            })
-                        }
-                    </div> */}
                     <div>
                         {
                             tv?.tagline

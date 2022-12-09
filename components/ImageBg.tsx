@@ -3,9 +3,12 @@ import React, { FC, ReactNode, useEffect, useState } from 'react';
 type Props = {
     children: ReactNode;
     imageUrl: string;
+    mdHeight?:string;
+    lgHeight?:string;
+    baseHeight?:string;
 }
 
-const ImageBg: FC<Props> = ({ children, imageUrl }) => {
+const ImageBg: FC<Props> = ({ children, imageUrl, mdHeight, lgHeight, baseHeight }) => {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -19,16 +22,16 @@ const ImageBg: FC<Props> = ({ children, imageUrl }) => {
                 isLoading
                     ?
                     <div
-                        className='
+                        className={`
                             bg-neutral-900
                             w-full
                             pt-24
                             md:pt-16
-                            md:h-[70vh]
-                            h-full
+                            md:${mdHeight ? "h-["+mdHeight+"]" : "h-[70vh]"}
+                            ${baseHeight ? "h-["+baseHeight+"]" : "h-full" }
                             flex
                             items-center
-                            justify-center'
+                            justify-center`}
                     >
                         {children}
                     </div>
@@ -42,16 +45,16 @@ const ImageBg: FC<Props> = ({ children, imageUrl }) => {
                             backgroundSize: "cover",
                             backgroundRepeat: "no-repeat"
                         }}
-                        className="
+                        className={`
                             w-full
                             pt-24
                             md:pt-16
-                            lg:h-[75vh]
-                            md:h-[80vh]
-                            h-auto
+                            lg:${lgHeight ? "h-[" + lgHeight + "]" : "h-[75vh]"}
+                            md:${mdHeight ? "h-[" + mdHeight + "]" : "h-[80vh]"}
+                            ${baseHeight ? "h-["+baseHeight+"]" : "h-auto" }
                             flex
                             items-center
-                            justify-center"
+                            justify-center`}
                     >
                         {children}
                     </div>

@@ -13,7 +13,7 @@ type Props = {
 const Review:FC<Props> = ({review}) => {
     return (
         <div className='flex flex-col md:flex-row bg-neutral-800 m-3 pl-3 pt-1'>
-            <div className='min-w-[100px] min-h-[100px] ml-3 sm:ml-1 mt-5 rounded-md'>
+            <div className='min-w-[100px] min-h-[100px] ml-3 sm:ml-1 mt-5 rounded-md pb-5'>
                 <Image src={
                     review?.author_details?.avatar_path
                         ?

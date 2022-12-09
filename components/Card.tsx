@@ -36,7 +36,7 @@ const Card: FC<Props> = ({ movie }) => {
   return (
     <>
       {
-        movie?.poster_path
+        movie?.poster_path && movie?.overview
           ?
           <Image
             width={250}

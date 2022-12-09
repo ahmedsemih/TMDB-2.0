@@ -19,7 +19,13 @@ const Carousel: FC<Props> = ({ title, description, movies, cast }) => {
     handleLeave();
   },[router.pathname])
 
-  // ACTIVATING BODY SCROLL AFTER LEAVING CAROUSEL
+  // DISABLING BODY SCROLL AFTER ENTERING CAROUSEL
+  const handleEnter = () => {
+    const html = document.querySelector('html');
+    if (html) html.style.overflowY = 'hidden';
+  };
+
+   // ACTIVATING BODY SCROLL AFTER LEAVING CAROUSEL
   const handleLeave = () => {
     const html = document.querySelector('html');
     if (html) {
@@ -28,10 +34,8 @@ const Carousel: FC<Props> = ({ title, description, movies, cast }) => {
     };
   };
 
-  // HORIZONTAL SCROLL ON MOVIE CAROUSEL
+  // HORIZONTAL SCROLL
   const horizontalScroll = (e: any) => {
-    const html = document.querySelector('html');
-    if (html) html.style.overflowY = 'hidden';
     const delta = Math.max(-1, Math.min(1, (e.nativeEvent.wheelDelta || -e.nativeEvent.detail)));
     e.currentTarget.scrollLeft -= (delta * -100);
   };
@@ -44,8 +48,9 @@ const Carousel: FC<Props> = ({ title, description, movies, cast }) => {
       </div>
       <div
         className='flex overflow-y-hidden overflow-x-scroll scrollbar-hide whitespace-nowrap py-8 mx-6'
-        onWheel={horizontalScroll}
+        onMouseEnter={handleEnter}
         onMouseLeave={handleLeave}
+        onWheel={horizontalScroll}
       >
         {
           movies

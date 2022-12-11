@@ -20,7 +20,7 @@ const CastCard: FC<Props> = ({ actor }) => {
                         <Image
                             width={260}
                             height={390}
-                            onClick={() => router.push(`/actor/${actor?.id}`)}
+                            onClick={() => router.push(`/person/${actor?.id}`)}
                             className='mr-5 cursor-pointer w-full sm:w-96'
                             src={tmdbImageUrl + actor?.profile_path} alt="TMDB" />
                         <div className='p-3 text-center bg-neutral-800 '>

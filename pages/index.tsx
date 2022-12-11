@@ -1,6 +1,7 @@
 import { FC, useEffect } from 'react';
 import Banner from '../components/Banner';
 import Carousel from '../components/Carousel';
+
 import { useBaseContext } from '../contexts/baseContext';
 import { discoverMovies, getTrending } from '../services/movie-service';
 import { discoverTv } from '../services/tv-service';
@@ -13,10 +14,16 @@ type Props = {
 }
 
 const Home: FC<Props> = ({ trending, movieDiscover, tvDiscover }) => {
-  const { setSelected } = useBaseContext();
+  const { setSelected, setActiveType } = useBaseContext();
 
   useEffect(() => {
-    setSelected(trending[0]?.backdrop_path ? trending[0] : trending[1])
+    if (trending[0].backdrop_path) {
+      setSelected(trending[0]);
+      setActiveType(trending[0].media_type === "tv" ? "series" : "movies");
+    } else {
+      setSelected(trending[1]);
+      setActiveType(trending[1].media_type === "tv" ? "series" : "movies");
+    }
   }, []);
 
   return (

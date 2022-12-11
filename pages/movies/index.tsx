@@ -15,10 +15,11 @@ type Props = {
 }
 
 const Movies: FC<Props> = ({ popular, upcoming, topRated }) => {
-    const { setSelected } = useBaseContext();
+    const { setSelected, setActiveType } = useBaseContext();
 
     useEffect(() => {
-        setSelected(upcoming[0]?.backdrop_path ? upcoming[0] : upcoming[1])
+        setSelected(upcoming[0]?.backdrop_path ? upcoming[0] : upcoming[1]);
+        setActiveType("movies");
     }, []);
 
     return (

@@ -16,10 +16,11 @@ type Props = {
 }
 
 const Series: FC<Props> = ({ popular, topRated, airingToday, onTheAir }) => {
-    const { setSelected } = useBaseContext();
+    const { setSelected, setActiveType } = useBaseContext();
 
     useEffect(() => {
-        setSelected(popular[0]?.backdrop_path ? popular[0] : popular[1])
+        setSelected(popular[0]?.backdrop_path ? popular[0] : popular[1]);
+        setActiveType("series");
     }, []);
 
     return (

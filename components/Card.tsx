@@ -43,7 +43,7 @@ const Card: FC<Props> = ({ movie }) => {
             height={500}
             onMouseEnter={() => handleHover(movie)}
             onClick={() => router.push(`/${activeType}/${movie?.id}`)}
-            className='w-[250px] h-[400px] md:h-[500px] mr-5 hover:scale-125 hover:shadow-xl cursor-pointer'
+            className='w-[300px] h-[400px] md:h-[500px] mr-5 hover:scale-125 hover:shadow-xl cursor-pointer'
             src={tmdbImageUrl + movie?.poster_path} alt="TMDB" />
           :
           null

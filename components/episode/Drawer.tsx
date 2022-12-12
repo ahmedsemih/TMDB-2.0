@@ -23,7 +23,7 @@ const Drawer: FC<Props> = ({ season, index, handleClose }) => {
             {
               season.episodes[index].crew.map((crew) => {
                 return (
-                  <Link href={`/person/${crew.id}`} className='text-xl'>
+                  <Link href={`/people/${crew.id}`} className='text-xl'>
                     <span className='font-semibold mr-1'>{crew.job}:</span>
                     {crew.name}
                   </Link>
@@ -38,7 +38,7 @@ const Drawer: FC<Props> = ({ season, index, handleClose }) => {
             {
               season.episodes[index].guest_stars.map((star) => {
                 return (
-                  <Link href={`/person/${star.id}`} className='flex'>
+                  <Link href={`/people/${star.id}`} className='flex'>
                     <Image
                       className='w-[90px] h-[90px] object-cover'
                       src={

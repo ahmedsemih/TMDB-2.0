@@ -16,11 +16,11 @@ const CastCard: FC<Props> = ({ actor }) => {
             {
                 actor?.profile_path && !actor.character.includes("uncredited")
                     ?
-                    <div className="group flex flex-col justify-center mr-5 min-w-[260px] min-h-[500px] hover:scale-125 hover:shadow-xl rounded-md">
+                    <div className="group flex flex-col justify-center mr-5 min-w-[260px] w-[260px] min-h-[500px] h-[400px] md:h-[500px] hover:scale-125 hover:shadow-xl rounded-md">
                         <Image
                             width={260}
                             height={390}
-                            onClick={() => router.push(`/person/${actor?.id}`)}
+                            onClick={() => router.push(`/people/${actor?.id}`)}
                             className='mr-5 cursor-pointer w-full sm:w-96'
                             src={tmdbImageUrl + actor?.profile_path} alt="TMDB" />
                         <div className='p-3 text-center bg-neutral-800 '>

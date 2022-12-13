@@ -14,7 +14,7 @@ const CastCard: FC<Props> = ({ actor }) => {
     return (
         <>
             {
-                actor?.profile_path && !actor.character.includes("uncredited")
+                actor?.profile_path
                     ?
                     <div className="group flex flex-col justify-center mr-5 min-w-[260px] w-[260px] min-h-[500px] h-[400px] md:h-[500px] hover:scale-125 hover:shadow-xl rounded-md">
                         <Image
@@ -25,7 +25,7 @@ const CastCard: FC<Props> = ({ actor }) => {
                             src={tmdbImageUrl + actor?.profile_path} alt="TMDB" />
                         <div className='p-3 text-center bg-neutral-800 '>
                             <p className='text-xl font-bold'>{actor.name}</p>
-                            <p className='font-medium group-hover:hidden'>{actor.character}</p>
+                            <p className='font-medium group-hover:hidden'>{actor?.character?.includes("uncredited") ? actor?.character?.split("(uncredited)")[0] : actor?.character }</p>
                         </div>
                     </div>
                     :

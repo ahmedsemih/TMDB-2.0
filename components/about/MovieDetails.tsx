@@ -21,7 +21,7 @@ const Details: FC<Props> = ({ movie, director, writer }) => {
     const handleClickRate = () => {};
 
     return (
-        <div className='flex flex-col lg:flex-row'>
+        <div className='flex flex-col lg:flex-row py-5 md:py-16'>
             <div className='flex flex-col md:flex-row px-6'>
                 <Image
                     src={tmdbImageUrl + movie?.poster_path}

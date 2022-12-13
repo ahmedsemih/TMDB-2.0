@@ -25,12 +25,12 @@ const TvDetails: FC<Props> = ({ tv }) => {
     }
 
     return (
-        <div className='flex flex-col lg:flex-row'>
+        <div className='flex flex-col lg:flex-row py-5 md:py-16'>
             <div className='flex flex-col md:flex-row px-6'>
                 <Image
                     src={tmdbImageUrl + tv?.poster_path}
                     alt={tv?.name ? tv?.name : "tv"}
-                    className="mx-auto my-3 w-60 sm:w-64 md:w-72 lg:w-[400px] h-auto max-h-[500px]"
+                    className="mx-auto my-3 w-60 sm:w-64 md:w-72 lg:w-[500px] h-auto max-h-[500px]"
                     width={250}
                     height={500}
                 />

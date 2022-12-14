@@ -10,19 +10,24 @@ import Review from './Review';
 type Props = {
     id: number;
     type: string;
+    page?: number;
+    onReviewsPage?: boolean;
+    setTotalPages?:Dispatch<SetStateAction<number>>
 }
 
-const Reviews: FC<Props> = ({ id, type }) => {
+const Reviews: FC<Props> = ({ id, type, page = 1, onReviewsPage = false, setTotalPages }) => {
     const [reviews, setReviews]: [Reviews | any, Dispatch<SetStateAction<Reviews | any>>] = useState(null);
 
     useEffect(() => {
         const fetchReviews = async () => {
             if (type === "movie") {
-                const reviews = await getMovieReviews(id, 1);
+                const reviews = await getMovieReviews(id, page);
                 setReviews(reviews);
+                setTotalPages && setTotalPages!(reviews.total_pages || 1);
             } else {
-                const reviews = await getTvShowReviews(id, 1);
+                const reviews = await getTvShowReviews(id, page);
                 setReviews(reviews);
+                setTotalPages && setTotalPages!(reviews.total_pages || 1);
             }
         };
         fetchReviews();
@@ -32,14 +37,17 @@ const Reviews: FC<Props> = ({ id, type }) => {
         <div className='px-3'>
             <div className='flex sm:items-end flex-col sm:flex-row'>
                 <h2 className='text-3xl pl-3 font-bold mr-5'>Reviews</h2>
-                <Link
-                    href={`/movies/${id}/reviews`}
-                    className="flex items-center hover:text-sky-200 transition duration-200 text-xl pl-3 sm:p-0"
-                >
-                    See all reviews {`(${reviews?.results.length})`}
-                    <FaChevronRight className='text-sm mt-1 ml-2' />
-                </Link>
-
+                {
+                    !onReviewsPage
+                    &&
+                    <Link
+                        href={`/${type}/${id}/reviews`}
+                        className="flex items-center hover:text-sky-200 transition duration-200 text-xl pl-3 sm:p-0"
+                    >
+                        See all reviews {`(${reviews?.results.length})`}
+                        <FaChevronRight className='text-sm mt-1 ml-2' />
+                    </Link>
+                }
             </div>
             <div>
                 {

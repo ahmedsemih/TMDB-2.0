@@ -1,11 +1,11 @@
 import { FC, useEffect, useState } from 'react';
 import Head from 'next/head';
 
-import { getMovieCredits, getMovieDetails, getSimilarMovies } from '../../services/movie-service';
-import { Credit, Movie } from '../../types';
-import Carousel from '../../components/Carousel';
-import Reviews from '../../components/reviews';
-import About from '../../components/about';
+import { getMovieCredits, getMovieDetails, getSimilarMovies } from '../../../services/movie-service';
+import { Credit, Movie } from '../../../types';
+import Carousel from '../../../components/Carousel';
+import Reviews from '../../../components/reviews';
+import About from '../../../components/about';
 
 type Props = {
     id: number;
@@ -35,7 +35,7 @@ const Movie: FC<Props> = ({ id, movie, title, credits, director, writer }) => {
             <div>
                 <About movie={movie} writer={writer} director={director} />
                 <Carousel cast={credits.cast} title="Cast" description='Actors & Actresses' />
-                <Reviews id={id} type="movie" />
+                <Reviews id={id} type="movies" />
                 <Carousel movies={similar && similar} title="Similar Movies" description="Similar Genre Movies" />
             </div>
         </>

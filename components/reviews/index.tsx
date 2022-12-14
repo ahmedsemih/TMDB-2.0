@@ -20,7 +20,7 @@ const Reviews: FC<Props> = ({ id, type, page = 1, onReviewsPage = false, setTota
 
     useEffect(() => {
         const fetchReviews = async () => {
-            if (type === "movie") {
+            if (type === "movies") {
                 const reviews = await getMovieReviews(id, page);
                 setReviews(reviews);
                 setTotalPages && setTotalPages!(reviews.total_pages || 1);
@@ -44,16 +44,16 @@ const Reviews: FC<Props> = ({ id, type, page = 1, onReviewsPage = false, setTota
                         href={`/${type}/${id}/reviews`}
                         className="flex items-center hover:text-sky-200 transition duration-200 text-xl pl-3 sm:p-0"
                     >
-                        See all reviews {`(${reviews?.results.length})`}
+                        See all reviews {`(${reviews?.results?.length})`}
                         <FaChevronRight className='text-sm mt-1 ml-2' />
                     </Link>
                 }
             </div>
             <div>
                 {
-                    reviews?.results.length > 0
+                    reviews?.results?.length > 0
                         ?
-                        reviews?.results.slice(0, 3).map((review: Reviews["results"][0], index: number) => {
+                        reviews?.results?.slice(0, 3).map((review: Reviews["results"][0], index: number) => {
                             return (
                                 <Review review={review} key={index} />
                             )

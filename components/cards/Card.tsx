@@ -2,12 +2,12 @@ import { FC } from 'react';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
-import { tmdbImageUrl } from '../utils/constants';
-import { Movie } from '../types';
-import { getMovieDetails } from '../services/movie-service';
-import { getTvShowDetails } from '../services/tv-service';
-import { useBaseContext } from '../contexts/baseContext';
-import delay from '../utils/delay';
+import { tmdbImageUrl } from '../../utils/constants';
+import { Movie } from '../../types';
+import { getMovieDetails } from '../../services/movie-service';
+import { getTvShowDetails } from '../../services/tv-service';
+import { useBaseContext } from '../../contexts/baseContext';
+import delay from '../../utils/delay';
 
 type Props = {
   movie: Movie;

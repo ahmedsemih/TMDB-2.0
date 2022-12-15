@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React, { FC } from 'react';
-import { Credit } from '../types';
-import { tmdbImageUrl } from '../utils/constants';
+import { Credit } from '../../types';
+import { tmdbImageUrl } from '../../utils/constants';
 
 type Props = {
     actor: Credit["cast"];

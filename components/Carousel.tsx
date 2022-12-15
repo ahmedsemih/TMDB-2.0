@@ -2,8 +2,8 @@ import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 
 import { Credit, Movie } from '../types';
-import Card from './Card';
-import CastCard from './CastCard';
+import Card from './cards/Card';
+import CastCard from './cards/CastCard';
 
 type Props = {
   title: string;

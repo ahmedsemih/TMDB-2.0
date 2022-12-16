@@ -1,9 +1,14 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { FC } from 'react';
-import { MdBookmark, MdFavorite, MdStar } from 'react-icons/md';
+import React, { FC, useEffect, useState } from 'react';
+import { BsFillBookmarkDashFill, BsFillBookmarkPlusFill } from 'react-icons/bs';
+import { MdFavorite, MdStar } from 'react-icons/md';
 import { TbWorld } from 'react-icons/tb'
+import secureLocalStorage from 'react-secure-storage';
+import { useAuthContext } from '../../contexts/authContext';
+import { watchlistStatus } from '../../services/user-service';
 import { Movie } from '../../types';
+import checkWatchlist from '../../utils/checkWatchlist';
 import { tmdbImageUrl } from '../../utils/constants';
 
 type Props = {
@@ -13,12 +18,29 @@ type Props = {
 }
 
 const Details: FC<Props> = ({ movie, director, writer }) => {
+    const { user } = useAuthContext();
+    const [isOnWatchlist, setIsOnWatchlist] = useState(false);
 
-    const handleClickWatchlist = () => {};
+    useEffect(() => {
 
-    const handleClickFavorite = () => {};
+        // Checking watchlist status
+        checkWatchlist("movie", user?.id, movie?.id)
+            .then((result: boolean) => {
+                setIsOnWatchlist(result);
+            });
+    }, [movie.id, setIsOnWatchlist]);
 
-    const handleClickRate = () => {};
+    const handleClickWatchlist = () => { 
+        const sessionId = secureLocalStorage.getItem("session_id")?.toString();
+        if (!sessionId) return;
+
+        watchlistStatus(user?.id, sessionId, "movie", movie?.id, !isOnWatchlist);
+        setIsOnWatchlist(prev => !prev);
+    };
+
+    const handleClickFavorite = () => { };
+
+    const handleClickRate = () => { };
 
     return (
         <div className='flex flex-col lg:flex-row py-5 md:py-16'>
@@ -98,9 +120,15 @@ const Details: FC<Props> = ({ movie, director, writer }) => {
                 }
                 <button
                     onClick={handleClickWatchlist}
-                    className='md:my-5 m-3 hover:text-sky-200 transition duration-200'
+                    className={`md:my-5 m-3 hover:text-sky-200 transition duration-200 ${isOnWatchlist && "text-sky-300"}`}
                 >
-                    <MdBookmark className='text-5xl' />
+                    {
+                        isOnWatchlist
+                        ?
+                        <BsFillBookmarkDashFill className='text-5xl'/>
+                        :
+                        <BsFillBookmarkPlusFill className='text-5xl'/>
+                    }
                 </button>
                 <button
                     onClick={handleClickFavorite}

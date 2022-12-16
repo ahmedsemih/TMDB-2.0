@@ -1,28 +1,45 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { FC } from 'react';
-import { MdBookmark, MdFavorite, MdStar } from 'react-icons/md';
+import React, { FC, useEffect, useState } from 'react';
+import { MdFavorite, MdStar } from 'react-icons/md';
 import { TbWorld } from 'react-icons/tb';
-import { Tv } from '../../types';
+import secureLocalStorage from 'react-secure-storage';
+
+import { useAuthContext } from '../../contexts/authContext';
+import { watchlistStatus } from '../../services/user-service';
 import { tmdbImageUrl } from '../../utils/constants';
+import { Tv } from '../../types';
+import checkWatchlist from '../../utils/checkWatchlist';
+import { BsFillBookmarkDashFill, BsFillBookmarkPlusFill } from 'react-icons/bs';
 
 type Props = {
     tv?: Tv;
 }
 
 const TvDetails: FC<Props> = ({ tv }) => {
+    const { user } = useAuthContext();
+    const [isOnWatchlist, setIsOnWatchlist] = useState(false);
 
-    const handleClickRate = () => {
+    useEffect(() => {
 
-    }
+        // Checking watchlist status
+        checkWatchlist("series", user?.id, tv?.id!)
+            .then((result: boolean) => {
+                setIsOnWatchlist(result);
+            });
+    }, [tv?.id, setIsOnWatchlist]);
 
-    const handleClickFavorite = () => {
+    const handleClickRate = () => { };
 
-    }
+    const handleClickFavorite = () => { };
 
     const handleClickWatchlist = () => {
+        const sessionId = secureLocalStorage.getItem("session_id")?.toString();
+        if (!sessionId) return;
 
-    }
+        watchlistStatus(user?.id, sessionId, "tv", tv?.id!, !isOnWatchlist);
+        setIsOnWatchlist(prev => !prev);
+    };
 
     return (
         <div className='flex flex-col lg:flex-row py-5 md:py-16'>
@@ -75,7 +92,7 @@ const TvDetails: FC<Props> = ({ tv }) => {
                         {
                             tv?.created_by.map((creator) => {
                                 return (
-                                    <div className='text-xl flex flex-col my-5 sm:mr-10'key={creator.id}>
+                                    <div className='text-xl flex flex-col my-5 sm:mr-10' key={creator.id}>
                                         <h5 className='font-semibold text-xl text-center'>Creator</h5>
                                         <p className='text-center'>{creator.name}</p>
                                     </div>
@@ -100,9 +117,15 @@ const TvDetails: FC<Props> = ({ tv }) => {
                 }
                 <button
                     onClick={handleClickWatchlist}
-                    className='md:my-5 m-3 hover:text-sky-200 transition duration-200'
+                    className={`md:my-5 m-3 hover:text-sky-200 transition duration-200 ${isOnWatchlist && "text-sky-300"}`}
                 >
-                    <MdBookmark className='text-5xl' />
+                    {
+                        isOnWatchlist
+                            ?
+                            <BsFillBookmarkDashFill className='text-5xl' />
+                            :
+                            <BsFillBookmarkPlusFill className='text-5xl' />
+                    }
                 </button>
                 <button
                     onClick={handleClickFavorite}

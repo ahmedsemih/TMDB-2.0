@@ -35,6 +35,11 @@ export const AuthProvider = ({ children }: any) => {
         const expiresDate = Date.parse(String(expires_at));
         if ((expiresDate - now) > 600000) return;
 
+        if((expiresDate - now) < 0){
+            setUser(null);
+            secureLocalStorage.clear();
+        }
+
         const fetchNew = async () => {
             const { request_token } = await getRequestToken();
             const res = await login(user.username, password, request_token);

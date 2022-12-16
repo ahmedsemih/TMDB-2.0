@@ -38,7 +38,7 @@ export const getFavoriteSeries = async (id:number, sessionId:string, page:number
 };
 
 // WATCHLIST
-export const watchlistStatus = async (id:number, sessionId:number, mediaType:string, mediaId: number, watchlist:boolean) => {
+export const watchlistStatus = async (id:number, sessionId:string, mediaType:string, mediaId: number, watchlist:boolean) => {
     const res = await fetch(`${API_BASE_URL}/account/${id}/watchlist?api_key=${API_KEY}&session_id=${sessionId}`,{
         method: "POST",
         headers: {

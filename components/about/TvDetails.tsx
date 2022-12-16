@@ -6,19 +6,21 @@ import { TbWorld } from 'react-icons/tb';
 import secureLocalStorage from 'react-secure-storage';
 
 import { useAuthContext } from '../../contexts/authContext';
-import { watchlistStatus } from '../../services/user-service';
+import { markAsFavorite, watchlistStatus } from '../../services/user-service';
 import { tmdbImageUrl } from '../../utils/constants';
 import { Tv } from '../../types';
 import checkWatchlist from '../../utils/checkWatchlist';
 import { BsFillBookmarkDashFill, BsFillBookmarkPlusFill } from 'react-icons/bs';
+import checkFavorites from '../../utils/checkFavorites';
 
 type Props = {
-    tv?: Tv;
+    tv: Tv;
 }
 
 const TvDetails: FC<Props> = ({ tv }) => {
     const { user } = useAuthContext();
     const [isOnWatchlist, setIsOnWatchlist] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
 
@@ -27,11 +29,13 @@ const TvDetails: FC<Props> = ({ tv }) => {
             .then((result: boolean) => {
                 setIsOnWatchlist(result);
             });
-    }, [tv?.id, setIsOnWatchlist]);
 
-    const handleClickRate = () => { };
-
-    const handleClickFavorite = () => { };
+        // Checking favorite status
+        checkFavorites("series", user?.id, tv?.id!)
+            .then((result: boolean) => {
+                setIsFavorite(result);
+            })
+    }, [tv.id, user]);
 
     const handleClickWatchlist = () => {
         const sessionId = secureLocalStorage.getItem("session_id")?.toString();
@@ -40,6 +44,16 @@ const TvDetails: FC<Props> = ({ tv }) => {
         watchlistStatus(user?.id, sessionId, "tv", tv?.id!, !isOnWatchlist);
         setIsOnWatchlist(prev => !prev);
     };
+
+    const handleClickFavorite = () => {
+        const sessionId = secureLocalStorage.getItem("session_id")?.toString();
+        if (!sessionId) return;
+
+        markAsFavorite(user?.id, sessionId, "tv", tv?.id!, !isFavorite);
+        setIsFavorite(prev => !prev);
+    };
+
+    const handleClickRate = () => { };
 
     return (
         <div className='flex flex-col lg:flex-row py-5 md:py-16'>
@@ -129,7 +143,7 @@ const TvDetails: FC<Props> = ({ tv }) => {
                 </button>
                 <button
                     onClick={handleClickFavorite}
-                    className='md:my-5 m-3 hover:text-sky-200 transition duration-200'
+                    className={`md:my-5 m-3 hover:text-sky-200 transition duration-200 ${isFavorite && "text-sky-300"}`}
                 >
                     <MdFavorite className='text-5xl' />
                 </button>

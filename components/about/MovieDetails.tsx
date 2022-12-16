@@ -5,9 +5,11 @@ import { BsFillBookmarkDashFill, BsFillBookmarkPlusFill } from 'react-icons/bs';
 import { MdFavorite, MdStar } from 'react-icons/md';
 import { TbWorld } from 'react-icons/tb'
 import secureLocalStorage from 'react-secure-storage';
+
 import { useAuthContext } from '../../contexts/authContext';
-import { watchlistStatus } from '../../services/user-service';
+import { markAsFavorite, watchlistStatus } from '../../services/user-service';
 import { Movie } from '../../types';
+import checkFavorites from '../../utils/checkFavorites';
 import checkWatchlist from '../../utils/checkWatchlist';
 import { tmdbImageUrl } from '../../utils/constants';
 
@@ -20,6 +22,7 @@ type Props = {
 const Details: FC<Props> = ({ movie, director, writer }) => {
     const { user } = useAuthContext();
     const [isOnWatchlist, setIsOnWatchlist] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
 
@@ -28,9 +31,15 @@ const Details: FC<Props> = ({ movie, director, writer }) => {
             .then((result: boolean) => {
                 setIsOnWatchlist(result);
             });
-    }, [movie.id, setIsOnWatchlist]);
 
-    const handleClickWatchlist = () => { 
+        // Checking favorite status
+        checkFavorites("movie", user?.id, movie?.id)
+            .then((result: boolean) => {
+                setIsFavorite(result);
+            });
+    }, [movie.id, user]);
+
+    const handleClickWatchlist = () => {
         const sessionId = secureLocalStorage.getItem("session_id")?.toString();
         if (!sessionId) return;
 
@@ -38,7 +47,13 @@ const Details: FC<Props> = ({ movie, director, writer }) => {
         setIsOnWatchlist(prev => !prev);
     };
 
-    const handleClickFavorite = () => { };
+    const handleClickFavorite = () => {
+        const sessionId = secureLocalStorage.getItem("session_id")?.toString();
+        if (!sessionId) return;
+
+        markAsFavorite(user?.id, sessionId, "movie", movie?.id, !isFavorite);
+        setIsFavorite(prev => !prev);
+    };
 
     const handleClickRate = () => { };
 
@@ -124,15 +139,15 @@ const Details: FC<Props> = ({ movie, director, writer }) => {
                 >
                     {
                         isOnWatchlist
-                        ?
-                        <BsFillBookmarkDashFill className='text-5xl'/>
-                        :
-                        <BsFillBookmarkPlusFill className='text-5xl'/>
+                            ?
+                            <BsFillBookmarkDashFill className='text-5xl' />
+                            :
+                            <BsFillBookmarkPlusFill className='text-5xl' />
                     }
                 </button>
                 <button
                     onClick={handleClickFavorite}
-                    className='md:my-5 m-3 hover:text-sky-200 transition duration-200'
+                    className={`md:my-5 m-3 hover:text-sky-200 transition duration-200 ${isFavorite && "text-sky-300"}`}
                 >
                     <MdFavorite className='text-5xl' />
                 </button>

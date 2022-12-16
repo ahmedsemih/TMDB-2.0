@@ -1,16 +1,17 @@
 import React, { FC, useEffect, useState } from 'react';
 import moment from 'moment';
 import Image from 'next/image';
-import { MdBookmark, MdFavorite, MdStar } from 'react-icons/md';
-import { BsFillBookmarkDashFill } from 'react-icons/bs';
+import { MdFavorite, MdStar, MdFavoriteBorder } from 'react-icons/md';
+import { BsFillBookmarkDashFill, BsFillBookmarkPlusFill } from 'react-icons/bs';
 
 import { Movie, Tv } from '../../types';
 import { tmdbImageUrl } from '../../utils/constants';
 import Link from 'next/link';
 import checkWatchlist from '../../utils/checkWatchlist';
 import { useAuthContext } from '../../contexts/authContext';
-import { watchlistStatus } from '../../services/user-service';
+import { markAsFavorite, watchlistStatus } from '../../services/user-service';
 import secureLocalStorage from 'react-secure-storage';
+import checkFavorites from '../../utils/checkFavorites';
 
 type Props = {
     movie?: Movie;
@@ -20,17 +21,24 @@ type Props = {
 const HorizontalCard: FC<Props> = ({ movie, series }) => {
     const { user } = useAuthContext();
     const [isOnWatchlist, setIsOnWatchlist] = useState(true);
+    const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
-
-        // Checking watchlist status
         const type = movie ? "movie" : "series";
 
+        // Checking watchlist status
         checkWatchlist(type, user?.id, movie ? movie?.id! : series?.id!)
             .then((result: boolean) => {
                 setIsOnWatchlist(result);
             });
-    }, [movie?.id, series?.id, isOnWatchlist]);
+
+        // Checking favorite status
+            checkFavorites(type, user?.id, movie ? movie?.id! : series?.id!)
+            .then((result: boolean) => {
+                setIsFavorite(result);
+            });
+
+    }, [movie?.id, series?.id]);
 
     const handleClickWatchlist = (id: number) => {
         const sessionId = secureLocalStorage.getItem("session_id")?.toString();
@@ -41,8 +49,13 @@ const HorizontalCard: FC<Props> = ({ movie, series }) => {
         setIsOnWatchlist(prev => !prev);
     };
 
-    const handleClickFavorite = () => {
+    const handleClickFavorite = (id:number) => {
+        const sessionId = secureLocalStorage.getItem("session_id")?.toString();
+        if (!sessionId) return;
 
+        const type = movie ? "movie" : "tv";
+        markAsFavorite(user?.id, sessionId, type, id, !isFavorite);
+        setIsFavorite(prev => !prev);
     };
 
     const handleClickRate = () => {
@@ -86,17 +99,28 @@ const HorizontalCard: FC<Props> = ({ movie, series }) => {
                                     </>
                                     :
                                     <>
-                                        <MdBookmark className='text-3xl mr-1' />
+                                        <BsFillBookmarkPlusFill className='text-3xl mr-1' />
                                         <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>Watchlist</span>
                                     </>
                             }
                         </button>
                         <button
-                            onClick={handleClickFavorite}
+                            onClick={()=>handleClickFavorite(movie?.id!)}
                             className='flex text-xl items-center hover:text-sky-200'
                         >
-                            <MdFavorite className='text-3xl mr-1' />
-                            <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>Favorite</span>
+                            {
+                                isFavorite
+                                ?
+                                <>
+                                    <MdFavorite className='text-3xl mr-1' />
+                                    <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>Unfavorite</span>
+                                </>
+                                :
+                                <>
+                                    <MdFavoriteBorder className='text-3xl mr-1' />
+                                    <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>Favorite</span>
+                                </>
+                            }
                         </button>
                         <button
                             onClick={handleClickRate}
@@ -146,17 +170,28 @@ const HorizontalCard: FC<Props> = ({ movie, series }) => {
                                     </>
                                     :
                                     <>
-                                        <MdBookmark className='text-3xl mr-1' />
+                                        <BsFillBookmarkPlusFill className='text-3xl mr-1' />
                                         <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>Watchlist</span>
                                     </>
                             }
                         </button>
                         <button
-                            onClick={handleClickFavorite}
+                            onClick={()=>handleClickFavorite(series?.id!)}
                             className='flex text-xl items-center hover:text-sky-200'
                         >
-                            <MdFavorite className='text-3xl mr-1' />
-                            <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>Favorite</span>
+                            {
+                                isFavorite
+                                ?
+                                <>
+                                    <MdFavorite className='text-3xl mr-1' />
+                                    <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>Unfavorite</span>
+                                </>
+                                :
+                                <>
+                                    <MdFavoriteBorder className='text-3xl mr-1' />
+                                    <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>Favorite</span>
+                                </>
+                            }
                         </button>
                         <button
                             onClick={handleClickRate}

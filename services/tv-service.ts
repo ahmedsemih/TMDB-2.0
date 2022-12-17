@@ -96,8 +96,8 @@ export const getEpisodeDetails = async (id:number, seasonNumber:number, episodeN
 }
 
 // RATING
-export const rateTvShow = async (id:number, userId:string, rating:number) => {
-  const result = await fetch(`${API_BASE_URL}/tv/${id}/rating?api_key=${API_KEY}&session_id=${userId}`,{
+export const rateTvShow = async (id:number, sessionId:string, rating:number) => {
+  const result = await fetch(`${API_BASE_URL}/tv/${id}/rating?api_key=${API_KEY}&session_id=${sessionId}`,{
     method: "POST",
     headers: {
       "Content-Type":"application/json; charset=UTF-8"
@@ -108,8 +108,8 @@ export const rateTvShow = async (id:number, userId:string, rating:number) => {
   return rate;
 };
 
-export const deleteTvShowRating = async (id:number, userId:string) => {
-  const result = await fetch(`${API_BASE_URL}/tv/${id}/rating?api_key=${API_KEY}&session_id=${userId}`,{
+export const deleteTvShowRating = async (id:number, sessionId:string) => {
+  const result = await fetch(`${API_BASE_URL}/tv/${id}/rating?api_key=${API_KEY}&session_id=${sessionId}`,{
     method: "DELETE",
     headers: {
       "Content-Type":"application/json; charset=UTF-8"

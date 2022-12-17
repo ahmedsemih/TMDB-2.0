@@ -66,3 +66,16 @@ export const getSeriesWatchlist = async (id:number, sessionId:string, page:numbe
     return series;
 };
 
+// RATINGS
+export const getRatedMovies = async (id:number, sessionId:string, page:number = 1) => {
+    const res = await fetch(`${API_BASE_URL}/account/${id}/rated/movies?api_key=${API_KEY}&session_id=${sessionId}&page=${page}`);
+    const movies = await res.json();
+    return movies;
+};
+
+export const getRatedSeries = async (id:number, sessionId:string, page:number = 1) => {
+    const res = await fetch(`${API_BASE_URL}/account/${id}/rated/tv?api_key=${API_KEY}&session_id=${sessionId}&page=${page}`);
+    const series = await res.json();
+    return series;
+};
+

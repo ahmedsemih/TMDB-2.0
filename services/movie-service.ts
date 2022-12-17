@@ -64,8 +64,8 @@ export const getMovieCredits = async (id:number) => {
 };
 
 // RATING
-export const rateMovie = async (id:number, userId:string, rating:number) => {
-  const result = await fetch(`${API_BASE_URL}/movie/${id}/rating?api_key=${API_KEY}&session_id=${userId}`,{
+export const rateMovie = async (id:number, sessionId:string, rating:number) => {
+  const result = await fetch(`${API_BASE_URL}/movie/${id}/rating?api_key=${API_KEY}&session_id=${sessionId}`,{
     method: "POST",
     headers: {
       "Content-Type":"application/json; charset=UTF-8"
@@ -76,8 +76,8 @@ export const rateMovie = async (id:number, userId:string, rating:number) => {
   return rate;
 };
 
-export const deleteMovieRating = async (id:number, userId:string) => {
-  const result = await fetch(`${API_BASE_URL}/movie/${id}/rating?api_key=${API_KEY}&session_id=${userId}`,{
+export const deleteMovieRating = async (id:number, sessionId:string) => {
+  const result = await fetch(`${API_BASE_URL}/movie/${id}/rating?api_key=${API_KEY}&session_id=${sessionId}`,{
     method: "DELETE",
     headers: {
       "Content-Type":"application/json; charset=UTF-8"

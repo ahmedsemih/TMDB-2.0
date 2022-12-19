@@ -4,7 +4,7 @@ import React, { FC, useState } from 'react';
 import { FaArrowLeft } from 'react-icons/fa';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import Episode from '../../../../components/episode';
-import Drawer from '../../../../components/episode/drawer';
+import Drawer from '../../../../components/episode/Drawer';
 
 import ImageBg from '../../../../components/ImageBg';
 import { getSeasonDetails, getTvShowDetails } from '../../../../services/tv-service';

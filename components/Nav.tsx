@@ -29,7 +29,7 @@ const Nav = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            if (activeType === "movie") {
+            if (activeType === "movies") {
                 const movieGenres = await getMovieGenres();
                 setData(movieGenres.genres);
             } else {
@@ -45,13 +45,32 @@ const Nav = () => {
     return (
         <nav className='relative border-y-2 border-neutral-800'>
             <div
-                className="bg-[rgba(16,16,16,.8)] hover:bg-neutral-900 transition-all duration-200 py-4 flex items-center overflow-x-scroll scrollbar-hide whitespace-nowrap overflow-y-hidden"
+                className="
+                bg-[rgba(16,16,16,.8)]
+                hover:bg-neutral-900
+                transition-all
+                duration-200
+                py-4
+                flex
+                items-center
+                overflow-x-scroll
+                scrollbar-hide
+                whitespace-nowrap
+                overflow-y-hidden"
                 onWheel={horizontalScroll}
                 onMouseLeave={handleLeave}
             >
                 {
                     data && data?.map((genre: Genre) => {
-                        return <Link href={`/search?type=${activeType}&genre=${genre.id}`} key={genre.id} className='text-2xl hover:text-sky-200 mx-6'>{genre.name}</Link>
+                        return (
+                            <Link
+                                href={`/search?type=${activeType}&genre=${genre.id}`}
+                                key={genre.id}
+                                className='text-2xl hover:text-sky-200 mx-6'
+                            >
+                                {genre.name}
+                            </Link>
+                        )
                     })
                 }
             </div>

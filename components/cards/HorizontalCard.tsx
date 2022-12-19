@@ -13,6 +13,7 @@ import { markAsFavorite, watchlistStatus } from '../../services/user-service';
 import secureLocalStorage from 'react-secure-storage';
 import checkFavorites from '../../utils/checkFavorites';
 import RateModal from '../RateModal';
+import { useRouter } from 'next/router';
 
 type Props = {
     movie?: Movie;
@@ -20,6 +21,7 @@ type Props = {
 }
 
 const HorizontalCard: FC<Props> = ({ movie, series }) => {
+    const router = useRouter();
     const { user } = useAuthContext();
     const [isOnWatchlist, setIsOnWatchlist] = useState(false);
     const [isFavorite, setIsFavorite] = useState(false);
@@ -65,26 +67,34 @@ const HorizontalCard: FC<Props> = ({ movie, series }) => {
         setIsVisible(true);
     };
 
+    if (!movie?.poster_path && !series?.poster_path) return null;
+
     if (movie) {
         return (
             <>
-                <div className='lg:w-[47vw] xl:w-[48vw] my-3 flex flex-col md:flex-row bg-neutral-800 rounded-md md:h-[300px]'>
+                <div className='lg:w-[47vw] xl:w-[48vw] my-3 flex flex-col md:flex-row bg-neutral-800 rounded-md md:h-[300px] pt-3 md:pt-0'>
                     <Image
-                        className='rounded-l-md md:mx-0 mx-auto'
+                        onClick={() => router.push(`/movies/${movie?.id}`)}
+                        className='rounded-l-md md:mx-0 mx-auto cursor-pointer'
                         src={tmdbImageUrl + movie?.poster_path}
                         alt={movie?.title || "watchlist-item"}
                         width={200} height={400}
                     />
-                    <div className='flex flex-col p-3 justify-between mt-5 md:mt-0'>
+                    <div className='flex flex-col p-3 justify-between mt-5 md:mt-0 w-[100%]'>
                         <div>
-                            <Link href={`/movies/${movie?.id}`} className='text-2xl font-semibold flex flex-col sm:flex-row justify-between w-[100%]'>
+                            <Link
+                                href={`/movies/${movie?.id}`}
+                                className='text-2xl font-semibold flex flex-col sm:flex-row justify-between w-[100%]'
+                            >
                                 <span>{movie.title}</span>
                                 <span className='flex items-center font-semibold'>
                                     <MdStar className='mr-2 text-yellow-300' />
                                     {movie.vote_average.toFixed(1)}
                                 </span>
                             </Link>
-                            <p className='text-xl text-neutral-500'>{moment(movie.release_date).format("DD MMMM YYYY")}</p>
+                            <p className='text-xl text-neutral-500'>
+                                {moment(movie.release_date).format("DD MMMM YYYY")}
+                            </p>
                             <p className='text-lg max-h-[115px] mt-3 overflow-y-hidden'>
                                 {movie.overview}
                             </p>
@@ -99,12 +109,16 @@ const HorizontalCard: FC<Props> = ({ movie, series }) => {
                                         ?
                                         <>
                                             <BsFillBookmarkDashFill className='text-3xl mr-1' />
-                                            <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>Remove</span>
+                                            <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>
+                                                Remove
+                                            </span>
                                         </>
                                         :
                                         <>
                                             <BsFillBookmarkPlusFill className='text-3xl mr-1' />
-                                            <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>Watchlist</span>
+                                            <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>
+                                                Watchlist
+                                            </span>
                                         </>
                                 }
                             </button>
@@ -117,12 +131,16 @@ const HorizontalCard: FC<Props> = ({ movie, series }) => {
                                         ?
                                         <>
                                             <MdFavorite className='text-3xl mr-1' />
-                                            <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>Unfavorite</span>
+                                            <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>
+                                                Unfavorite
+                                            </span>
                                         </>
                                         :
                                         <>
                                             <MdFavoriteBorder className='text-3xl mr-1' />
-                                            <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>Favorite</span>
+                                            <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>
+                                                Favorite
+                                            </span>
                                         </>
                                 }
                             </button>
@@ -131,34 +149,48 @@ const HorizontalCard: FC<Props> = ({ movie, series }) => {
                                 className='flex text-xl items-center hover:text-sky-200'
                             >
                                 <MdStar className='text-3xl mr-1' />
-                                <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>{rate !== 0 ? rate : "Rate"}</span>
+                                <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>
+                                    {rate !== 0 ? rate : "Rate"}
+                                </span>
                             </button>
                         </div>
                     </div>
                 </div>
-                <RateModal isVisible={isVisible} setIsVisible={setIsVisible} type="movie" contentId={movie?.id} setRate={setRate} />
+                <RateModal
+                    isVisible={isVisible}
+                    setIsVisible={setIsVisible}
+                    type="movie"
+                    contentId={movie?.id}
+                    setRate={setRate}
+                />
             </>
         )
     } else {
         return (
             <>
-                <div className='lg:w-[47vw] xl:w-[48vw] my-3 flex flex-col md:flex-row bg-neutral-800 rounded-md md:h-[300px]'>
+                <div className='lg:w-[47vw] xl:w-[48vw] my-3 flex flex-col md:flex-row bg-neutral-800 rounded-md md:h-[300px] pt-3 md:pt-0'>
                     <Image
-                        className='rounded-l-md md:mx-0 mx-auto '
+                        onClick={() => router.push(`/series/${series?.id}`)}
+                        className='rounded-l-md md:mx-0 mx-auto cursor-pointer'
                         src={tmdbImageUrl + series?.poster_path}
                         alt={series?.name || "watchlist-item"}
                         width={200} height={400}
                     />
                     <div className='flex flex-col p-3 justify-between mt-5 md:mt-0'>
                         <div>
-                            <Link href={`/series/${series?.id}`} className='text-2xl font-semibold flex flex-col sm:flex-row justify-between w-[100%]'>
+                            <Link
+                                href={`/series/${series?.id}`}
+                                className='text-2xl font-semibold flex flex-col sm:flex-row justify-between w-[100%]'
+                            >
                                 <span>{series?.name}</span>
                                 <span className='flex items-center font-semibold'>
                                     <MdStar className='mr-2 text-yellow-300' />
                                     {series?.vote_average.toFixed(1)}
                                 </span>
                             </Link>
-                            <p className='text-xl text-neutral-500'>{moment(series?.first_air_date).format("DD MMMM YYYY")}</p>
+                            <p className='text-xl text-neutral-500'>
+                                {moment(series?.first_air_date).format("DD MMMM YYYY")}
+                            </p>
                             <p className='text-lg max-h-[115px] mt-3 overflow-y-hidden'>
                                 {series?.overview}
                             </p>
@@ -173,12 +205,16 @@ const HorizontalCard: FC<Props> = ({ movie, series }) => {
                                         ?
                                         <>
                                             <BsFillBookmarkDashFill className='text-3xl mr-1' />
-                                            <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>Remove</span>
+                                            <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>
+                                                Remove
+                                            </span>
                                         </>
                                         :
                                         <>
                                             <BsFillBookmarkPlusFill className='text-3xl mr-1' />
-                                            <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>Watchlist</span>
+                                            <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>
+                                                Watchlist
+                                            </span>
                                         </>
                                 }
                             </button>
@@ -191,12 +227,16 @@ const HorizontalCard: FC<Props> = ({ movie, series }) => {
                                         ?
                                         <>
                                             <MdFavorite className='text-3xl mr-1' />
-                                            <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>Unfavorite</span>
+                                            <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>
+                                                Unfavorite
+                                            </span>
                                         </>
                                         :
                                         <>
                                             <MdFavoriteBorder className='text-3xl mr-1' />
-                                            <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>Favorite</span>
+                                            <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>
+                                                Favorite
+                                            </span>
                                         </>
                                 }
                             </button>
@@ -205,12 +245,20 @@ const HorizontalCard: FC<Props> = ({ movie, series }) => {
                                 className='flex text-xl items-center hover:text-sky-200'
                             >
                                 <MdStar className='text-3xl mr-1' />
-                                <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>{rate !== 0 ? rate : "Rate"}</span>
+                                <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>
+                                    {rate !== 0 ? rate : "Rate"}
+                                </span>
                             </button>
                         </div>
                     </div>
                 </div>
-                <RateModal isVisible={isVisible} setIsVisible={setIsVisible} type="series" contentId={series?.id!} setRate={setRate} />
+                <RateModal
+                    isVisible={isVisible}
+                    setIsVisible={setIsVisible}
+                    type="series"
+                    contentId={series?.id!}
+                    setRate={setRate}
+                />
             </>
         )
     }

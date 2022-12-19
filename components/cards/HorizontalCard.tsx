@@ -80,11 +80,11 @@ const HorizontalCard: FC<Props> = ({ movie, series }) => {
                         alt={movie?.title || "watchlist-item"}
                         width={200} height={400}
                     />
-                    <div className='flex flex-col p-3 justify-between mt-5 md:mt-0 w-[100%]'>
+                    <div className='w-full flex flex-col p-3 justify-between mt-5 md:mt-0'>
                         <div>
                             <Link
                                 href={`/movies/${movie?.id}`}
-                                className='text-2xl font-semibold flex flex-col sm:flex-row justify-between w-[100%]'
+                                className='text-2xl font-semibold flex flex-col sm:flex-row justify-between'
                             >
                                 <span>{movie.title}</span>
                                 <span className='flex items-center font-semibold'>
@@ -176,11 +176,11 @@ const HorizontalCard: FC<Props> = ({ movie, series }) => {
                         alt={series?.name || "watchlist-item"}
                         width={200} height={400}
                     />
-                    <div className='flex flex-col p-3 justify-between mt-5 md:mt-0'>
+                    <div className='flex flex-col p-3 justify-between mt-5 md:mt-0 w-full'>
                         <div>
                             <Link
                                 href={`/series/${series?.id}`}
-                                className='text-2xl font-semibold flex flex-col sm:flex-row justify-between w-[100%]'
+                                className='text-2xl font-semibold flex flex-col sm:flex-row justify-between'
                             >
                                 <span>{series?.name}</span>
                                 <span className='flex items-center font-semibold'>

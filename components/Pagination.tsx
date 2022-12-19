@@ -2,21 +2,32 @@ import Link from 'next/link';
 import React, { FC } from 'react';
 
 type Props = {
-    id: number;
+    id?: number;
     page: number;
     totalPages: number;
+    type: string;
+    q: string;
 }
 
-const Pagination: FC<Props> = ({ id, page, totalPages }) => {
+const Pagination: FC<Props> = ({ id, page, totalPages, type, q }) => {
     return (
         <nav className='w-full flex justify-center my-3'>
             <ul className="inline-flex items-center w-fit">
                 <li>
                     <Link
-                        href={{
-                            pathname: "",
-                            query: { id: id, page: Number(page) - 1 },
-                        }}
+                        href={
+                                id
+                                ?
+                                {
+                                    pathname: "",
+                                    query: { id: id, page: Number(page) - 1 },
+                                }
+                                :
+                                {
+                                    pathname: "",
+                                    query: { type: type, q: q, page: Number(page) - 1 },
+                                }
+                        }
                         className={`
                             block
                             px-3
@@ -54,13 +65,40 @@ const Pagination: FC<Props> = ({ id, page, totalPages }) => {
                 {
                     [...Array(totalPages)].map((value, index) => {
                         return (
-                            <li key={index}>
+                            index + 1 > Number(page) - 3 && index + 1 < Number(page) + 3
+                            &&
+                            <li
+                                key={index}
+                                className={
+                                    `${index + 1 > Number(page) - 2 && index + 1 < Number(page) + 2
+                                        ?
+                                        "block"
+                                        :
+                                        "hidden"
+                                    }
+                                sm:${index + 1 > Number(page) - 3 && index + 1 < Number(page) + 3
+                                        ?
+                                        "block"
+                                        :
+                                        "hidden"
+                                    }`
+                                }
+                            >
                                 <Link
                                     key={index + 1}
-                                    href={{
-                                        pathname: "",
-                                        query: { id: id, page: index + 1 },
-                                    }}
+                                    href={
+                                            id
+                                            ?
+                                            {
+                                                pathname: "",
+                                                query: { id: id, page: index + 1 },
+                                            }
+                                            :
+                                            {
+                                                pathname: "",
+                                                query: { type: type, q: q, page: index + 1 },
+                                            }
+                                    }
                                     className={`
                                         px-4
                                         py-2
@@ -75,22 +113,29 @@ const Pagination: FC<Props> = ({ id, page, totalPages }) => {
                                             :
                                             "border-neutral-600 text-neutral-400 bg-neutral-800 hover:text-neutral-100 hover:bg-neutral-700 hover:border-neutral-400"
                                         }
-                                        `}
+                                    `}
                                 >
                                     {index + 1}
                                 </Link>
                             </li>
                         )
-
-                    }
-                    )
+                    })
                 }
                 <li>
                     <Link
-                        href={{
-                            pathname: "",
-                            query: { id: id, page: Number(page) + 1 },
-                        }}
+                        href={
+                                id
+                                ?
+                                {
+                                    pathname: "",
+                                    query: { id: id, page: Number(page) + 1 },
+                                }
+                                :
+                                {
+                                    pathname: "",
+                                    query: { type: type, q: q, page: Number(page) + 1 },
+                                }
+                        }
                         className={`
                             block
                             px-3

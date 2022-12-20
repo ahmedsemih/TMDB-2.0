@@ -5,8 +5,8 @@ type Props = {
     id?: number;
     page: number;
     totalPages: number;
-    type: string;
-    q: string;
+    type?: string;
+    q?: string;
 }
 
 const Pagination: FC<Props> = ({ id, page, totalPages, type, q }) => {

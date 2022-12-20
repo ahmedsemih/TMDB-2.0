@@ -12,7 +12,7 @@ type Props = {
     type: string;
     page?: number;
     onReviewsPage?: boolean;
-    setTotalPages?:Dispatch<SetStateAction<number>>
+    setTotalPages?: Dispatch<SetStateAction<number>>
 }
 
 const Reviews: FC<Props> = ({ id, type, page = 1, onReviewsPage = false, setTotalPages }) => {
@@ -53,11 +53,21 @@ const Reviews: FC<Props> = ({ id, type, page = 1, onReviewsPage = false, setTota
                 {
                     reviews?.results?.length > 0
                         ?
-                        reviews?.results?.slice(0, 3).map((review: Reviews["results"][0], index: number) => {
-                            return (
-                                <Review review={review} key={index} />
-                            )
-                        })
+                        (
+                            onReviewsPage
+                                ?
+                                reviews?.results?.map((review: Reviews["results"][0], index: number) => {
+                                    return (
+                                        <Review review={review} key={index} />
+                                    )
+                                })
+                                :
+                                reviews?.results?.slice(0, 3).map((review: Reviews["results"][0], index: number) => {
+                                    return (
+                                        <Review review={review} key={index} />
+                                    )
+                                })
+                        )
                         :
                         <p className='text-2xl pl-3 py-3'>There is no reviews yet.</p>
                 }

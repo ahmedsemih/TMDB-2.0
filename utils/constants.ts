@@ -26,6 +26,8 @@ export const navItems:NavItem[]=[
 
 export const tmdbImageUrl:string = "https://image.tmdb.org/t/p/original/";
 
+export const noAvatarImage:string = "https://res.cloudinary.com/dtzs4c2uv/image/upload/v1666326774/noavatar_rxbrbk.png";
+
 export const loginAdventages = [
     "Rate movies and series.",
     "Mark as favorite.",

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import moment from 'moment';
 
 import { getPersonDetails, getPersonMovies, getPersonSeries } from '../../services/person-service';
-import { tmdbImageUrl } from '../../utils/constants';
+import { noAvatarImage, tmdbImageUrl } from '../../utils/constants';
 import Carousel from '../../components/Carousel';
 import { Person } from '../../types';
 
@@ -19,17 +19,27 @@ const Person: FC<Props> = ({ details, movies, series }) => {
       <div>
         <Image
           className='mx-auto w-[250px] sm:w-[400px] h-[400px] sm:h-[600px] md:h-[450px] lg:h-[600px] rounded-md'
-          src={details.profile_path ? tmdbImageUrl + details.profile_path : "https://res.cloudinary.com/dtzs4c2uv/image/upload/v1666326774/noavatar_rxbrbk.png"}
+          src={details.profile_path ? tmdbImageUrl + details.profile_path : noAvatarImage}
           alt={details.name || "person"}
           width={600}
           height={800}
         />
         <div className='mt-6 px-6 md:px-0'>
-          <h2 className='text-3xl font-semibold'>Personal Info</h2>
-          <h4 className='text-xl font-semibold mt-3'>Known For</h4>
-          <p className='text-lg'> {details.known_for_department} </p>
-          <h4 className='text-xl font-semibold mt-3'>Known Credits</h4>
-          <p className='text-lg'> {movies.cast.length + movies.crew.length + series.cast.length + series.crew.length} </p>
+          <h2 className='text-3xl font-semibold'>
+            Personal Info
+          </h2>
+          <h4 className='text-xl font-semibold mt-3'>
+            Known For
+          </h4>
+          <p className='text-lg'>
+            {details.known_for_department}
+          </p>
+          <h4 className='text-xl font-semibold mt-3'>
+            Known Credits
+          </h4>
+          <p className='text-lg'>
+            {movies.cast.length + movies.crew.length + series.cast.length + series.crew.length}
+          </p>
           {
             details.birthday
             &&

@@ -24,15 +24,17 @@ const Episode: FC<Props> = ({ episode }) => {
                 <div>
                     <h3 className='text-2xl font-semibold flex flex-col lg:flex-row'>
                         {episode.episode_number} - {episode.name}
-                        <span className='lg:ml-3 text-neutral-500'>{moment(episode.air_date).format("DD.MM.YYYY")}</span>
+                        <span className='lg:ml-3 text-neutral-500'>
+                            {moment(episode.air_date).format("DD.MM.YYYY")}
+                        </span>
                     </h3>
                     <p className='text-lg my-3 overflow-y-hidden md:max-h-[90px]'>
                         {
                             episode.overview
-                                ?
-                                episode.overview
-                                :
-                                `${episode.name} primiered on ${moment(episode.air_date).format("MMMM DD, YYYY")}.`
+                            ?
+                            episode.overview
+                            :
+                            `${episode.name} primiered on ${moment(episode.air_date).format("MMMM DD, YYYY")}.`
                         }
                     </p>
                 </div>

@@ -25,11 +25,34 @@ const Search: FC<Props> = ({ title, type, contents, page, totalPages, genre, q }
             </Head>
             <div className='flex flex-col md:flex-row my-5 px-6 py-10 pt-20 xl:w-[1440px] xl:mx-auto'>
                 <div className='flex flex-col w-full md:w-72 mr-3'>
-                    <h1 className={`text-2xl bg-neutral-800 rounded-md text-center py-2 px-3 font-semibold ${type === "people" ? "mt-7" : "mt-2"}`}>
+                    <h1
+                        className={`
+                            text-2xl
+                            bg-neutral-800
+                            rounded-md
+                            text-center
+                            py-2
+                            px-3
+                            font-semibold
+                            ${type === "people" ? "mt-7" : "mt-2"}
+                        `}
+                    >
                         Categories
                     </h1>
                     <Link
-                        className='text-2xl mt-2 bg-neutral-800 rounded-md text-center py-2 px-3 hover:bg-neutral-700 transition-all duration-100'
+                        className={`
+                            text-2xl
+                            mt-2
+                            bg-neutral-800
+                            rounded-md
+                            text-center
+                            py-2
+                            px-3
+                            hover:bg-neutral-700
+                            transition-all
+                            duration-100
+                            ${type === "movies" && "bg-neutral-700"}
+                        `}
                         href={
                                 genre
                                 ?
@@ -47,7 +70,19 @@ const Search: FC<Props> = ({ title, type, contents, page, totalPages, genre, q }
                         Movies
                     </Link>
                     <Link
-                        className='text-2xl mt-2 bg-neutral-800 rounded-md text-center py-2 px-3 hover:bg-neutral-700 transition-all duration-100'
+                        className={`
+                            text-2xl
+                            mt-2
+                            bg-neutral-800
+                            rounded-md
+                            text-center
+                            py-2
+                            px-3
+                            hover:bg-neutral-700
+                            transition-all
+                            duration-100
+                            ${type === "series" && "bg-neutral-700"}
+                        `}
                         href={
                                 genre
                                 ?
@@ -65,7 +100,19 @@ const Search: FC<Props> = ({ title, type, contents, page, totalPages, genre, q }
                         Series
                     </Link>
                     <Link
-                        className='text-2xl mt-2 bg-neutral-800 rounded-md text-center py-2 px-3 hover:bg-neutral-700 transition-all duration-100'
+                        className={`
+                            text-2xl
+                            mt-2
+                            bg-neutral-800
+                            rounded-md
+                            text-center
+                            py-2
+                            px-3
+                            hover:bg-neutral-700
+                            transition-all
+                            duration-100
+                            ${type === "people" && "bg-neutral-700"}
+                        `}
                         href={
                                 genre
                                 ?
@@ -87,7 +134,18 @@ const Search: FC<Props> = ({ title, type, contents, page, totalPages, genre, q }
                     {
                         type === "people"
                             ?
-                            <div className='md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full flex flex-col items-center'>
+                            <div
+                                className='
+                                    md:grid
+                                    md:grid-cols-2
+                                    lg:grid-cols-3
+                                    xl:grid-cols-4
+                                    w-full
+                                    flex
+                                    flex-col
+                                    items-center
+                                '
+                            >
                                 {
                                     contents.map((content: any) => {
                                         return <CastCard actor={content} />

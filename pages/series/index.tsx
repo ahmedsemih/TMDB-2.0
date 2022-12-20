@@ -32,14 +32,14 @@ const Series: FC<Props> = ({ popular, topRated, airingToday, onTheAir }) => {
                 <Banner />
                 <Nav />
                 <Carousel
+                    title='Top Rated'
+                    description='Top Rated Series'
+                    movies={topRated}
+                />
+                <Carousel
                     title='Popular'
                     description='Most Popular Series'
                     movies={popular}
-                />
-                <Carousel
-                    title='Airing Today'
-                    description="Today's Tv Contents"
-                    movies={airingToday}
                 />
                 <Carousel
                     title='On The Air'
@@ -47,9 +47,9 @@ const Series: FC<Props> = ({ popular, topRated, airingToday, onTheAir }) => {
                     movies={onTheAir}
                 />
                 <Carousel
-                    title='Top Rated'
-                    description='Top Rated Series'
-                    movies={topRated}
+                    title='Airing Today'
+                    description="Today's Tv Contents"
+                    movies={airingToday}
                 />
             </div>
         </>

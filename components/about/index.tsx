@@ -22,7 +22,7 @@ const About: FC<Props> = ({ movie, tv, writer, director }) => {
         return (
             <>
                 <ImageBg imageUrl={tmdbImageUrl + movie?.backdrop_path}>
-                    <MovieDetails movie={movie} director={director ? director[0]?.name : null} writer={writer ? writer[0]?.name : null} />
+                    <MovieDetails movie={movie!} director={director ? director[0]?.name : null} writer={writer ? writer[0]?.name : null} />
                 </ImageBg>
                 <Belt
                     icons={[BsClockFill, BsStarFill, BsBank2, BsGraphUp]}
@@ -40,7 +40,7 @@ const About: FC<Props> = ({ movie, tv, writer, director }) => {
         return (
             <>
                 <ImageBg imageUrl={tmdbImageUrl + tv?.backdrop_path}>
-                    <TvDetails tv={tv} />
+                    <TvDetails tv={tv!} />
                 </ImageBg>
                 <Belt
                     icons={[BsClockFill, BsStarFill, RiFilmFill, AiTwotonePieChart]}

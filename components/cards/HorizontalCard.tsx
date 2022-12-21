@@ -102,7 +102,7 @@ const HorizontalCard: FC<Props> = ({ movie, series }) => {
                         <div className='flex justify-between mt-5'>
                             <button
                                 onClick={() => handleClickWatchlist(movie?.id!)}
-                                className='flex text-xl items-center hover:text-sky-200'
+                                className='flex text-xl md:text-lg items-center hover:text-sky-200'
                             >
                                 {
                                     isOnWatchlist
@@ -124,7 +124,7 @@ const HorizontalCard: FC<Props> = ({ movie, series }) => {
                             </button>
                             <button
                                 onClick={() => handleClickFavorite(movie?.id!)}
-                                className='flex text-xl items-center hover:text-sky-200'
+                                className='flex text-xl md:text-lg items-center hover:text-sky-200'
                             >
                                 {
                                     isFavorite
@@ -146,7 +146,7 @@ const HorizontalCard: FC<Props> = ({ movie, series }) => {
                             </button>
                             <button
                                 onClick={handleClickRate}
-                                className='flex text-xl items-center hover:text-sky-200'
+                                className='flex text-xl md:text-lg items-center hover:text-sky-200'
                             >
                                 <MdStar className='text-3xl mr-1' />
                                 <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>
@@ -198,7 +198,7 @@ const HorizontalCard: FC<Props> = ({ movie, series }) => {
                         <div className='flex justify-between mt-5'>
                             <button
                                 onClick={() => handleClickWatchlist(series?.id!)}
-                                className='flex text-xl items-center hover:text-sky-200'
+                                className='flex text-xl md:text-lg items-center hover:text-sky-200'
                             >
                                 {
                                     isOnWatchlist
@@ -220,7 +220,7 @@ const HorizontalCard: FC<Props> = ({ movie, series }) => {
                             </button>
                             <button
                                 onClick={() => handleClickFavorite(series?.id!)}
-                                className='flex text-xl items-center hover:text-sky-200'
+                                className='flex text-xl md:text-lg items-center hover:text-sky-200'
                             >
                                 {
                                     isFavorite
@@ -242,7 +242,7 @@ const HorizontalCard: FC<Props> = ({ movie, series }) => {
                             </button>
                             <button
                                 onClick={handleClickRate}
-                                className='flex text-xl items-center hover:text-sky-200'
+                                className='flex text-xl md:text-lg items-center hover:text-sky-200'
                             >
                                 <MdStar className='text-3xl mr-1' />
                                 <span className='hidden sm:inline lg:hidden xl:inline font-semibold'>

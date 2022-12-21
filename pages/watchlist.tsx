@@ -2,13 +2,13 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 import { MdBookmark } from 'react-icons/md';
+import secureLocalStorage from 'react-secure-storage';
 
 import { useAuthContext } from '../contexts/authContext';
 import { getMovieWatchlist } from '../services/user-service';
 import { getSeriesWatchlist } from '../services/user-service';
 import { MovieWatchlist, TvWatchlist } from '../types';
 import { tmdbImageUrl } from '../utils/constants';
-import secureLocalStorage from 'react-secure-storage';
 import HorizontalCard from '../components/cards/HorizontalCard';
 import ImageBg from '../components/ImageBg';
 import Spinner from '../components/Spinner';
@@ -71,13 +71,15 @@ const Watchlist = () => {
   return (
     <>
       <Head>
-        <title>{`${user?.username} - Watchlist`}</title>
+        <title>Watchlist - TMDB</title>
       </Head>
       <div>
         <ImageBg imageUrl={watchlistItems && tmdbImageUrl + watchlistItems[0]?.backdrop_path}>
           <div className='pt-10 pb-5 px-6 flex flex-col w-full'>
             <div className='flex items-end'>
-              <h1 className='text-2xl sm:text-4xl  lg:text-5xl font-semibold'>Watchlists</h1>
+              <h1 className='text-2xl sm:text-4xl  lg:text-5xl font-semibold'>
+                Watchlists
+              </h1>
               <button
                 onClick={() => setType("movies")}
                 className={`
@@ -86,7 +88,7 @@ const Watchlist = () => {
                   ml-10
                   mr-3
                   ${type === "movies" ? "text-sky-300" : "hover:text-sky-200"}
-              `}
+                `}
               >
                 Movies
               </button>
@@ -97,7 +99,7 @@ const Watchlist = () => {
                   md:text-2xl
                   ml-3
                   ${type === "series" ? "text-sky-300" : "hover:text-sky-200"}
-              `}
+                  `}
               >
                 Series
               </button>
@@ -121,8 +123,12 @@ const Watchlist = () => {
                   :
                   <div className='flex flex-col items-center justify-center'>
                     <MdBookmark className='text-[200px] text-sky-400 mb-10' />
-                    <p className='text-xl md:text-3xl font-semibold text-center'>You do not have any watchlist item yet.</p>
-                    <p className='text-md md:text-lg text-center mt-1'>You can click the bookmark icon on the series or movie page and add it to the watchlist.</p>
+                    <p className='text-xl md:text-3xl font-semibold text-center'>
+                      You do not have any watchlist item yet.
+                    </p>
+                    <p className='text-md md:text-lg text-center mt-1'>
+                      You can click the bookmark icon on the series or movie page and add it to the watchlist.
+                    </p>
                   </div>
               )
           }

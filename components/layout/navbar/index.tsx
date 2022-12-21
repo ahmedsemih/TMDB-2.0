@@ -60,7 +60,7 @@ const Navbar = () => {
       `}
     >
       <div className="flex justify-between items-center py-5 px-3">
-        <Link href="/" className="mr-5">
+        <Link href="/" className="mr-5" rel="preload" as="image">
           <Image src={Logo} alt="TMDB" width={200} height={100} priority />
         </Link>
         {

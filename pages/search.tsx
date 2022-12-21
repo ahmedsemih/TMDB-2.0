@@ -161,9 +161,9 @@ const Search: FC<Props> = ({ title, type, contents, page, totalPages, genre, q }
                                             return (
                                                 type === "series"
                                                     ?
-                                                    <HorizontalCard series={content} />
+                                                    <HorizontalCard key={content.id} series={content} />
                                                     :
-                                                    <HorizontalCard movie={content} />
+                                                    <HorizontalCard key={content.id} movie={content} />
                                             )
                                         })
                                         :

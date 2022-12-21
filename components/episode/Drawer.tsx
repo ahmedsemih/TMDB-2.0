@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { MdKeyboardArrowUp } from 'react-icons/md';
 
 import { TvSeason } from '../../types';
-import { tmdbImageUrl } from '../../utils/constants';
+import { noAvatarImage, tmdbImageUrl } from '../../utils/constants';
 
 type Props = {
   season: TvSeason;
@@ -21,6 +21,8 @@ const Drawer: FC<Props> = ({ season, index, handleClose }) => {
           <h3 className='text-2xl font-semibold mb-3'>Crew</h3>
           <div className='flex flex-col md:w-64 lg:w-72 xl:w-80'>
             {
+              season.episodes[index].crew.length > 0
+              ?
               season.episodes[index].crew.map((crew) => {
                 return (
                   <Link href={`/people/${crew.id}`} className='text-xl'>
@@ -29,6 +31,10 @@ const Drawer: FC<Props> = ({ season, index, handleClose }) => {
                   </Link>
                 )
               })
+              :
+              <p className='text-lg'>
+                No Data.
+              </p>
             }
           </div>
         </div>
@@ -36,6 +42,8 @@ const Drawer: FC<Props> = ({ season, index, handleClose }) => {
           <h3 className='text-2xl font-semibold mb-3'>Guest Star</h3>
           <div className='grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3'>
             {
+              season.episodes[index].guest_stars.length > 0
+              ?
               season.episodes[index].guest_stars.map((star) => {
                 return (
                   <Link href={`/people/${star.id}`} className='flex'>
@@ -46,7 +54,7 @@ const Drawer: FC<Props> = ({ season, index, handleClose }) => {
                           ?
                           tmdbImageUrl + star.profile_path
                           :
-                          "https://res.cloudinary.com/dtzs4c2uv/image/upload/v1666326774/noavatar_rxbrbk.png"
+                          noAvatarImage
                       }
                       alt={star.name} width={90} height={130} />
                     <div className='px-3 flex flex-col justify-center'>
@@ -56,6 +64,10 @@ const Drawer: FC<Props> = ({ season, index, handleClose }) => {
                   </Link>
                 )
               })
+              :
+              <p className='text-lg'>
+                No Data.
+              </p>
             }
           </div>
         </div>

@@ -68,7 +68,9 @@ const Banner = () => {
                     px-2
                     group-hover:bg-[rgba(16,16,16,.6)]
                     transition-all
-                    duration-200"
+                    duration-200
+                    max-h-[200px]
+                    overflow-y-hidden"
                 >
                   {selected?.overview}
                 </p>

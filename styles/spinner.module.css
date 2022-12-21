@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 100vh;
+  min-height: 200px;
+  text-align: center;
+}
+
+.filmstrip {
+  margin: auto;
+  position: relative;
+  width: 74px;
+  height: 90px;
+  background: #e5e7eb;
+  z-index: -1;
+}
+.filmstrip::before,
+.filmstrip::after {
+  content: "";
+  position: absolute;
+  height: 120%;
+  border-left: 5px dashed rgb(17, 17, 17);
+  animation: roll 20ms infinite;
+}
+.filmstrip::before {
+  left: 5px;
+}
+.filmstrip::after {
+  right: 5px;
+}
+
+.text {
+  margin: 5px auto;
+  color: #e5e7eb;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+@keyframes roll {
+  0% {
+    top: 0px;
+  }
+  100% {
+    top: -15px;
+  }
+}

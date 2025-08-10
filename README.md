@@ -4,8 +4,6 @@ https://user-images.githubusercontent.com/102798814/209080200-1d6cdb04-6109-4e6e
 
 This is a TMDB 2.0 application includes movies, series and cast like TMDB.
 
-**Live demo: [https://tmdb2.vercel.app](https://tmdb2.vercel.app)**
-
 ## :bulb: Features
 
 - Dark Theme
